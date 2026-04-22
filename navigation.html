@@ -3,6 +3,19 @@
 <!-- <div id="navigation-container"></div> -->
 <!-- <script src="navigation.js"></script> -->
 
+<style>
+/* Smooth fade-in for injected navigation to avoid page blinking */
+.nav-fade {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 220ms cubic-bezier(.2,.9,.3,1), transform 220ms cubic-bezier(.2,.9,.3,1);
+}
+.nav-fade.nav-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+</style>
+
 <aside class="w-64 bg-sidebar flex flex-col h-full relative z-20 shrink-0">
     <div class="p-4">
         <div class="bg-white rounded-lg p-2 flex items-center justify-center h-16 shadow-sm">
