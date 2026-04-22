@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Reports - DisasterRelief</title>
+    <title>Citizen Registry - DisasterRelief</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -46,7 +46,7 @@
             border-radius: 10px;
         }
 
-        /* Sidebar active state indicator (matching screenshot) */
+        /* Sidebar active state indicator */
         .sidebar-active {
             background-color: rgba(255,255,255,0.05);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -62,10 +62,10 @@
     <!-- Navigation will be injected here dynamically -->
     <script src="navigation.js"></script>
 
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-gray-50/50">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white">
         
         <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-8 shrink-0">
-            <h1 class="text-xl font-bold text-slate-800">Emergency Management</h1>
+            <h1 class="text-xl font-bold text-slate-800">DisasterRelief Portal</h1>
             
             <div class="flex items-center space-x-6">
                 <button class="relative text-gray-500 hover:text-gray-700">
@@ -86,63 +86,52 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-8">
+        <div class="flex-1 overflow-y-auto p-8 bg-gray-50/50">
             
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-800 mb-1">Emergency Reports</h2>
-                <p class="text-gray-500 text-sm">Read-only view of emergency reports for oversight.</p>
+                <h2 class="text-2xl font-bold text-slate-800 mb-1">Citizen Registry</h2>
+                <p class="text-gray-500 text-sm">Read-only view of citizen profiles for oversight.</p>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <thead class="border-b border-gray-200 bg-gray-50/30">
+                        <thead class="border-b border-gray-200 bg-white">
                             <tr>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Type</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Location</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Date Reported</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Name</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Contact</th>
+                                <th class="px-6 py-5 text-sm font-bold text-slate-800">Address</th>
                                 <th class="px-6 py-5 text-sm font-bold text-slate-800">Status</th>
-                                <th class="px-6 py-5 text-sm font-bold text-slate-800"></th>
                             </tr>
                         </thead>
                         
                         <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
                             
-                            <tr class="hover:bg-gray-50/50 transition-colors">
+                            <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 flex items-center">
-                                    <div class="w-9 h-9 rounded-lg border border-blue-100 bg-blue-50 text-blue-500 flex items-center justify-center mr-4">
-                                        <i class="fa-solid fa-droplet text-lg"></i>
+                                    <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center mr-4 shrink-0 text-gray-500 border border-gray-200/50">
+                                        <i class="fa-regular fa-user text-sm"></i>
                                     </div>
-                                    <span class="font-bold text-slate-800">Flood</span>
+                                    <span class="font-bold text-slate-800">John Citizen</span>
                                 </td>
-                                <td class="px-6 py-4 text-slate-700">Riverside District</td>
-                                <td class="px-6 py-4 text-slate-700">1/10/2023</td>
+                                <td class="px-6 py-4 text-slate-700">555-0101</td>
+                                <td class="px-6 py-4 text-slate-700">123 Riverside Dr</td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[11px] font-bold tracking-wide">Validated</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="text-red-500 hover:text-red-700 font-semibold text-sm flex items-center justify-end w-full transition-colors">
-                                        <i class="fa-regular fa-eye mr-1.5"></i> View
-                                    </button>
+                                    <span class="px-3.5 py-1.5 bg-emerald-100/80 text-emerald-700 rounded-full text-[11px] font-bold tracking-wide">Verified</span>
                                 </td>
                             </tr>
 
-                            <tr class="hover:bg-gray-50/50 transition-colors">
+                            <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 flex items-center">
-                                    <div class="w-9 h-9 rounded-lg border border-red-100 bg-red-50 text-red-500 flex items-center justify-center mr-4">
-                                        <i class="fa-solid fa-fire text-lg"></i>
+                                    <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center mr-4 shrink-0 text-gray-500 border border-gray-200/50">
+                                        <i class="fa-regular fa-user text-sm"></i>
                                     </div>
-                                    <span class="font-bold text-slate-800">Fire</span>
+                                    <span class="font-bold text-slate-800">Jane Doe</span>
                                 </td>
-                                <td class="px-6 py-4 text-slate-700">Pine Hills</td>
-                                <td class="px-6 py-4 text-slate-700">15/10/2023</td>
+                                <td class="px-6 py-4 text-slate-700">555-0202</td>
+                                <td class="px-6 py-4 text-slate-700">456 Pine Hills Rd</td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-[11px] font-bold tracking-wide">Resolved</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="text-red-500 hover:text-red-700 font-semibold text-sm flex items-center justify-end w-full transition-colors">
-                                        <i class="fa-regular fa-eye mr-1.5"></i> View
-                                    </button>
+                                    <span class="px-3.5 py-1.5 bg-amber-100 text-amber-700 rounded-full text-[11px] font-bold tracking-wide">Pending</span>
                                 </td>
                             </tr>
 
