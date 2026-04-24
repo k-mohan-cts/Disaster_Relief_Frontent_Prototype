@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incidents — Disaster Relief</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/vYm68Zz/logo.png" alt="Logo">
+            </div>
+        </div>
+        <a href="dashboard-page.html" class="nav-item">🏠 Dashboard</a>
+        <div class="nav-label">COMMAND CENTER</div>
+        <a href="emergencies-page.html" class="nav-item">⚠️ Emergencies</a>
+        <a href="incidents-page.html" class="nav-item active">📈 Incidents</a>
+        <a href="recovery-page.html" class="nav-item">📋 Recovery Programs</a>
+        <a href="resources-page.html" class="nav-item">📦 Resources</a>
+        <div class="nav-label">RELIEF OPERATIONS</div>
+        <a href="inventory-page.html" class="nav-item">🏢 Relief Inventory</a>
+        <a href="distributions-page.html" class="nav-item">🚚 Distributions</a>
+        <a href="shelters-page.html" class="nav-item">⛺ Shelters</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <header>
+            <h2>Incident Management</h2>
+            <div class="header-actions">
+                <span style="font-size: 20px;">🔔</span>
+                <button class="pill-btn">Manager</button>
+                <span style="cursor:pointer; font-size: 14px;">Sign out</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="page-header">
+                <div>
+                    <h1>Incident Management</h1>
+                    <p class="small-note">Track and manage response incidents for validated emergencies.</p>
+                </div>
+                <a class="btn-action-red" href="create-incident.html">+ Create Incident</a>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Incident ID</th><th>Emergency Report</th><th>Assigned Officer</th><th>Actions Taken</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>INC-0001</strong></td>
+                            <td>⚠️ Flood - Riverside District</td>
+                            <td>USR-2</td>
+                            <td>Dispatched rescue boat to Main St.</td>
+                            <td>1/10/2023</td>
+                            <td><span class="badge badge-progress">InProgress</span></td>
+                            <td><button class="btn-outline" onclick="openEditModal('INC-0001', 'Flood at Riverside District', 'InProgress')">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INC-0002</strong></td>
+                            <td>🔥 Fire - Pine Hills</td>
+                            <td>USR-2</td>
+                            <td>Coordinated with local fire department...</td>
+                            <td>15/10/2023</td>
+                            <td><span class="badge badge-resolved">Resolved</span></td>
+                            <td><button class="btn-outline" onclick="openEditModal('INC-0002', 'Fire at Pine Hills', 'Resolved')">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Incident Status Modal -->
+    <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 12px; padding: 40px; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="margin: 0;">Edit Incident Status</h2>
+                <button onclick="closeEditModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <div id="incidentIdDisplay" style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">INC-0001</div>
+                <div id="incidentDescDisplay" style="color: #64748b; font-size: 14px;">Flood at Riverside District</div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Status</label>
+                <select id="statusSelect" style="width: 100%; padding: 12px; border: 2px solid #1e293b; border-radius: 8px; font-size: 16px;">
+                    <option value="Open">Open</option>
+                    <option value="InProgress" selected>In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button onclick="closeEditModal()" style="padding: 12px 24px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;">Cancel</button>
+                <button onclick="saveIncidentStatus()" style="padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentIncidentId = '';
+        let currentStatusBadge = null;
+
+        function openEditModal(incidentId, description, currentStatus) {
+            currentIncidentId = incidentId;
+            document.getElementById('incidentIdDisplay').textContent = incidentId;
+            document.getElementById('incidentDescDisplay').textContent = description;
+            document.getElementById('statusSelect').value = currentStatus;
+            
+            // Find the current badge element
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                if (row.textContent.includes(incidentId)) {
+                    currentStatusBadge = row.querySelector('.badge');
+                }
+            });
+            
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function saveIncidentStatus() {
+            const newStatus = document.getElementById('statusSelect').value;
+            
+            if (currentStatusBadge) {
+                const badgeMap = {
+                    'Open': 'badge-active',
+                    'InProgress': 'badge-progress',
+                    'Resolved': 'badge-resolved',
+                    'Closed': 'badge-resolved'
+                };
+                const statusDisplay = {
+                    'Open': 'Open',
+                    'InProgress': 'InProgress',
+                    'Resolved': 'Resolved',
+                    'Closed': 'Closed'
+                };
+                
+                currentStatusBadge.className = 'badge ' + badgeMap[newStatus];
+                currentStatusBadge.textContent = statusDisplay[newStatus];
+            }
+            
+            alert('Incident status updated successfully!');
+            closeEditModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+    </script>
+</body>
+</html>

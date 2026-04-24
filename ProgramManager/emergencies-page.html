@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergencies — Disaster Relief</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/vYm68Zz/logo.png" alt="Logo">
+            </div>
+        </div>
+        <a href="dashboard-page.html" class="nav-item">🏠 Dashboard</a>
+        <div class="nav-label">COMMAND CENTER</div>
+        <a href="emergencies-page.html" class="nav-item active">⚠️ Emergencies</a>
+        <a href="incidents-page.html" class="nav-item">📈 Incidents</a>
+        <a href="recovery-page.html" class="nav-item">📋 Recovery Programs</a>
+        <a href="resources-page.html" class="nav-item">📦 Resources</a>
+        <div class="nav-label">RELIEF OPERATIONS</div>
+        <a href="inventory-page.html" class="nav-item">🏢 Relief Inventory</a>
+        <a href="distributions-page.html" class="nav-item">🚚 Distributions</a>
+        <a href="shelters-page.html" class="nav-item">⛺ Shelters</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <header>
+            <h2>Emergency Reports</h2>
+            <div class="header-actions">
+                <span style="font-size: 20px;">🔔</span>
+                <button class="pill-btn">Manager</button>
+                <span style="cursor:pointer; font-size: 14px;">Sign out</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="page-header">
+                <div>
+                    <h1>Emergency Reports</h1>
+                    <p class="small-note">Manage and validate emergency reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Location</th><th>Date Reported</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>💧 Flood</td>
+                            <td>Riverside District</td>
+                            <td>1/10/2023</td>
+                            <td>
+                                <select onchange="toggleCreateButton(this)" style="padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px; font-weight: 600;">
+                                    <option>Submitted</option>
+                                    <option>Under Review</option>
+                                    <option selected>Validated</option>
+                                    <option>Resolved</option>
+                                    <option>Closed</option>
+                                </select>
+                            </td>
+                            <td>
+                                <a class="btn-action-red button-link create-btn" href="create-incident.html">+ Create Incident</a>
+                                <a class="btn-outline" href="emergency-detail.html">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>🔥 Fire</td>
+                            <td>Pine Hills</td>
+                            <td>15/10/2023</td>
+                            <td>
+                                <select onchange="toggleCreateButton(this)" style="padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px; font-weight: 600;">
+                                    <option>Submitted</option>
+                                    <option>Under Review</option>
+                                    <option>Validated</option>
+                                    <option selected>Resolved</option>
+                                    <option>Closed</option>
+                                </select>
+                            </td>
+                            <td><a class="btn-outline" href="emergency-detail.html">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleCreateButton(selectElement) {
+            const row = selectElement.closest('tr');
+            const createBtn = row.querySelector('.create-btn');
+            if (createBtn) {
+                if (selectElement.value === 'Validated') {
+                    createBtn.style.display = 'inline-flex';
+                } else {
+                    createBtn.style.display = 'none';
+                }
+            }
+        }
+        
+        // Initialize on page load
+        document.querySelectorAll('select').forEach(select => {
+            toggleCreateButton(select);
+        });
+    </script>
+</body>
+</html>
