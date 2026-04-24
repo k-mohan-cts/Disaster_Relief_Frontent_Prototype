@@ -84,6 +84,82 @@
         .btn-dark { background-color: #1a3345; }
         .btn-purple { background-color: #5b45e0; }
         .btn:hover { opacity: 0.9; }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-content {
+            background: white;
+            width: 500px;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 { font-size: 24px; color: #0f172a; font-weight: 700; }
+
+        .close-modal {
+            background: #f1f5f9; border: none; font-size: 18px;
+            width: 36px; height: 36px; border-radius: 50%;
+            cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Helpline Item Styles */
+        .helpline-item {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bg-red-light { background: #fff1f2; }
+        .bg-blue-light { background: #eff6ff; }
+        .bg-orange-light { background: #fff7ed; }
+
+        .helpline-info h4 { font-size: 18px; color: #991b1b; font-weight: 700; }
+        .helpline-info p { font-size: 14px; color: #b91c1c; opacity: 0.8; }
+        .helpline-number { font-size: 22px; font-weight: 800; color: #dc2626; }
+        
+        .blue-text h4 { color: #1e40af; }
+        .blue-text p { color: #1e40af; }
+        .blue-text .helpline-number { color: #2563eb; }
+
+        .orange-text h4 { color: #9a3412; }
+        .orange-text p { color: #9a3412; }
+        .orange-text .helpline-number { color: #ea580c; }
+
+        /* Distribution Item Styles */
+        .status-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .status-header h4 { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .badge-green { background: #dcfce7; color: #15803d; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-yellow { background: #fef9c3; color: #854d0e; }
+        .status-body p { font-size: 14px; color: #64748b; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -103,7 +179,7 @@
                 </div>
                 <h2>Contact Helpline</h2>
                 <p>Access emergency contact numbers for medical, fire, and disaster relief services.</p>
-                <button class="btn btn-dark">View Numbers</button>
+                <button class="btn btn-dark" onclick="openModal('helplineModal')">View Numbers</button>
             </div>
 
             <div class="resource-card">
@@ -112,10 +188,79 @@
                 </div>
                 <h2>Track Distribution Status</h2>
                 <p>Monitor the status of your requested relief items and expected delivery times.</p>
-                <button class="btn btn-purple">Track Items</button>
+                <button class="btn btn-purple" onclick="openModal('statusModal')">Track Items</button>
             </div>
         </div>
     </main>
+
+    <div id="helplineModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Emergency Helplines</h2>
+                <button class="close-modal" onclick="closeModal('helplineModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="helpline-item bg-red-light">
+                <div class="helpline-info">
+                    <h4>General Emergency</h4>
+                    <p>Disaster Relief Central</p>
+                </div>
+                <div class="helpline-number">1-800-DISASTER</div>
+            </div>
+            <div class="helpline-item bg-blue-light blue-text">
+                <div class="helpline-info">
+                    <h4>Medical Emergency</h4>
+                    <p>Ambulance & Hospitals</p>
+                </div>
+                <div class="helpline-number">1-800-MEDHELP</div>
+            </div>
+            <div class="helpline-item bg-orange-light orange-text">
+                <div class="helpline-info">
+                    <h4>Fire Department</h4>
+                    <p>Local Fire Services</p>
+                </div>
+                <div class="helpline-number">911</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="statusModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Distribution Status</h2>
+                <button class="close-modal" onclick="closeModal('statusModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="status-item">
+                <div class="status-header">
+                    <h4>Food Rations (Family Pack)</h4>
+                    <span class="badge badge-green">Delivered</span>
+                </div>
+                <div class="status-body">
+                    <p>Requested: Oct 12, 2023</p>
+                    <p>Delivered: Oct 14, 2023</p>
+                </div>
+            </div>
+            <div class="status-item">
+                <div class="status-header">
+                    <h4>Drinking Water (20L)</h4>
+                    <span class="badge badge-blue">In Transit</span>
+                </div>
+                <div class="status-body">
+                    <p>Requested: Oct 15, 2023</p>
+                    <p>Expected: Today, 4:00 PM</p>
+                </div>
+            </div>
+            <div class="status-item">
+                <div class="status-header">
+                    <h4>Medical Supplies</h4>
+                    <span class="badge badge-yellow">Pending</span>
+                </div>
+                <div class="status-body">
+                    <p>Requested: Oct 16, 2023</p>
+                    <p>Status: Awaiting approval</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Load the sidebar and trigger the highlighting script
@@ -133,6 +278,22 @@
                     document.body.appendChild(newScript);
                 });
             });
+
+        // Modal Logic
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Close modals if clicking outside the white box
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>

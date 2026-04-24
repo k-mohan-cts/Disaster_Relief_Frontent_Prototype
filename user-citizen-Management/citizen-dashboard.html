@@ -122,6 +122,86 @@
             width: 100%; height: 300px; border-radius: 8px; border: 1px solid #e2e8f0; 
             margin-top: 10px; z-index: 1;
         }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-content {
+            background: white;
+            width: 480px;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 { font-size: 22px; color: #0f172a; font-weight: 700; }
+
+        .close-modal {
+            background: #f1f5f9; border: none; font-size: 18px;
+            width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0;
+            border-radius: 10px; font-size: 14px; outline: none; background: #fcfdfe;
+        }
+
+        .upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .upload-area:hover { border-color: #14b8a6; background: #f0fdfa; }
+        .upload-icon { font-size: 32px; color: #94a3b8; margin-bottom: 12px; }
+        .upload-text { font-size: 14px; color: #64748b; }
+        .upload-text span { color: #14b8a6; font-weight: 600; }
+
+        .modal-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn-cancel {
+            padding: 12px; border: 1px solid #e2e8f0;
+            background: white; border-radius: 10px; font-weight: 600; cursor: pointer; color: #475569;
+        }
+
+        .btn-upload {
+            padding: 12px; background: #14b8a6; border: none;
+            color: white; border-radius: 10px; font-weight: 600; cursor: pointer;
+        }
+        .btn-upload:hover { background: #0f9688; }
+
+        .btn-emergency-submit {
+            padding: 12px; background: #dc2626; border: none;
+            color: white; border-radius: 10px; font-weight: 600; cursor: pointer;
+        }
+        .btn-emergency-submit:hover { background: #b91c1c; }
     </style>
 </head>
 <body>
@@ -142,7 +222,7 @@
                         <p>Upload and verify your identity documents to expedite relief access.</p>
                     </div>
                 </div>
-                <button class="verify-btn">Verify Now</button>
+                <button class="verify-btn" onclick="openModal()">Upload Document</button>
             </div>
 
             <div class="dashboard-grid">
@@ -167,7 +247,7 @@
                         </div>
                         <span class="status-badge resolved">Resolved</span>
                     </div>
-                    <button class="emergency-btn"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> Create Emergency Report</button>
+                    <button class="emergency-btn" onclick="openEmergencyModal()"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> Create Emergency Report</button>
                 </div>
 
                 <div class="card">
@@ -199,6 +279,80 @@
         </main>
     </div>
 
+    <div id="verificationModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Document Verification</h2>
+                <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Document Name</label>
+                    <input type="text" placeholder="e.g. Identity Card, Proof of Address">
+                </div>
+
+                <div class="input-group">
+                    <label>Document Type</label>
+                    <select>
+                        <option>PDF Document</option>
+                        <option>Image (JPG/PNG)</option>
+                    </select>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-upload" style="color: #14b8a6;"></i>
+                    </div>
+                    <p class="upload-text"><span>Click to browse</span> or drag and drop here</p>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-upload">Upload Document</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="emergencyModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Emergency Report</h2>
+                <button class="close-modal" onclick="closeEmergencyModal()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Incident Type</label>
+                    <select>
+                        <option>Flood</option>
+                        <option>Fire</option>
+                        <option>Medical Emergency</option>
+                        <option>Earthquake</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Location Details</label>
+                    <input type="text" placeholder="e.g. Landmark, Floor number">
+                </div>
+
+                <div class="input-group">
+                    <label>Describe Situation</label>
+                    <input type="text" placeholder="Briefly describe the emergency">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEmergencyModal()">Cancel</button>
+                <button class="btn-emergency-submit">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 1. Sidebar Fetch Logic
         fetch('sidebar.html')
@@ -207,7 +361,6 @@
                 const placeholder = document.getElementById('sidebar-placeholder');
                 placeholder.innerHTML = data;
                 
-                // Re-inject sidebar scripts to trigger auto-highlighting
                 const scripts = placeholder.querySelectorAll('script');
                 scripts.forEach(oldScript => {
                     const newScript = document.createElement('script');
@@ -230,8 +383,41 @@
                 .bindPopup("<b>Your Current Location</b><br>Guduvancheri, Tamil Nadu")
                 .openPopup();
 
-            // Refresh map size to avoid layout glitches
             setTimeout(() => { map.invalidateSize(); }, 400);
+        });
+
+        // 3. Modal Functionality
+        function openModal() {
+            document.getElementById('verificationModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('verificationModal').style.display = 'none';
+        }
+
+        function openEmergencyModal() {
+            document.getElementById('emergencyModal').style.display = 'flex';
+        }
+
+        function closeEmergencyModal() {
+            document.getElementById('emergencyModal').style.display = 'none';
+        }
+
+        // Close modals if clicking outside the white box
+        window.onclick = function(event) {
+            const vModal = document.getElementById('verificationModal');
+            const eModal = document.getElementById('emergencyModal');
+            if (event.target == vModal) {
+                closeModal();
+            }
+            if (event.target == eModal) {
+                closeEmergencyModal();
+            }
+        }
+
+        // Trigger file input click when the dashed area is clicked
+        document.getElementById('uploadArea').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
         });
     </script>
 </body>
