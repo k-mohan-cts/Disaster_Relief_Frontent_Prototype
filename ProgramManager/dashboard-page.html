@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Disaster Relief</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/vYm68Zz/logo.png" alt="Logo">
+            </div>
+
+        </div>
+        <a href=" dashboard-page.html" class="nav-item active">🏠 Dashboard</a>
+        <div class="nav-label">COMMAND CENTER</div>
+        <a href="emergencies-page.html" class="nav-item">⚠️ Emergencies</a>
+        <a href="incidents-page.html" class="nav-item">📈 Incidents</a>
+        <a href="recovery-page.html" class="nav-item">📋 Recovery Programs</a>
+        <a href="resources-page.html" class="nav-item">📦 Resources</a>
+        <div class="nav-label">RELIEF OPERATIONS</div>
+        <a href="inventory-page.html" class="nav-item">🏢 Relief Inventory</a>
+        <a href="distributions-page.html" class="nav-item">🚚 Distributions</a>
+        <a href="shelters-page.html" class="nav-item">⛺ Shelters</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <header>
+            <h2>Dashboard</h2>
+            <div class="header-actions">
+                <span style="font-size: 20px;">🔔</span>
+                <button class="pill-btn">Manager</button>
+                <span style="cursor:pointer; font-size: 14px;">Sign out</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="page-header">
+                <div>
+                    <h1>Welcome back, Michael Manager</h1>
+                    <p class="small-note">Thursday, April 23, 2026</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="big-card">
+                        <div class="icon-box" style="background: var(--accent-red);">⚠️</div>
+                        <div>
+                            <p class="small-note">Active Emergencies</p>
+                            <h2>1</h2>
+                        </div>
+                    </div>
+                    <a class="button-link btn-red" href="emergencies-page.html">View Emergencies →</a>
+                </div>
+                <div class="card">
+                    <div class="big-card">
+                        <div class="icon-box" style="background: var(--accent-green);">📋</div>
+                        <div>
+                            <p class="small-note">Active Recovery Programs</p>
+                            <h2 id="dash-rec-count">2</h2>
+                        </div>
+                    </div>
+                    <a class="button-link btn-green" href="recovery-page.html">View Programs →</a>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                        <h3>Recent Emergencies</h3>
+                        <a class="btn-outline" href="emergencies-page.html">View all →</a>
+                    </div>
+                    <table>
+                        <tr>
+                            <td><strong>Flood</strong> - Riverside District<br><small class="small-note">1/10/2023</small></td>
+                            <td style="text-align: right;"><span class="badge badge-validated">Validated</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fire</strong> - Pine Hills<br><small class="small-note">15/10/2023</small></td>
+                            <td style="text-align: right;"><span class="badge badge-resolved">Resolved</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                        <h3>Active Recovery Programs</h3>
+                        <a class="btn-outline" style="background: var(--accent-green); color: white;" href="create-recovery.html">+ New Program</a>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Coastal Flood Rehabilitation</strong><br><small class="small-note">Budget: $5,000,000</small></td>
+                                <td style="text-align: right;"><span class="badge badge-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Downtown Earthquake Recovery</strong><br><small class="small-note">Budget: $12,000,000</small></td>
+                                <td style="text-align: right;"><span class="badge badge-planned">Planned</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

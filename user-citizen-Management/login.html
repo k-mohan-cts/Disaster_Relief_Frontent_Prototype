@@ -127,11 +127,41 @@
                 <label for="password" class="input-label">Password</label>
                 <input type="password" id="password" class="login-input" placeholder="Enter your password" required>
                 
-                <button type="button" class="login-submit-btn" onclick="window.location.href='citizen-dashboard.html'">Login</button>
+                <button type="button" class="login-submit-btn" onclick="handleLogin()">Login</button>
             </form>
             
             <a href="#" class="forgot-password-link">Forgot password?</a>
         </div>
     </div>
 </body>
+
+<script>
+    function handleLogin() {
+        // Changed 'userEmail' to 'email' to match your HTML input id
+        const emailField = document.getElementById('email');
+        
+        if (!emailField || !emailField.value) {
+            alert("Please enter an email address.");
+            return;
+        }
+
+        const email = emailField.value.toLowerCase();
+        
+        if (email.endsWith('@manager.com')) {
+            window.location.href = '../ProgramManager/dashboard-page.html';
+        } 
+        else if (email.endsWith('@officer.com')) {
+            window.location.href = 'relief-officer.html';
+        } 
+        else if (email.endsWith('@auditor.com')) {
+            window.location.href = '../ComplianceAuditManagement/Audit_Compliance-dashboard.html';
+        } 
+        else if (email.endsWith('@citizen.com') || email.includes('@gmail.com')) {
+            window.location.href = 'citizen-dashboard.html';
+        } 
+        else {
+            alert("Invalid email domain. Please use your assigned organizational email.");
+        }
+    }
+</script>
 </html>
