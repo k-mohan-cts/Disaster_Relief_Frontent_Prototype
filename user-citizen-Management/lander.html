@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Relief Lander Content</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling if needed */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container that would have the background image */
+        .background-container {
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/bg.png'); 
+            background-position: center;
+            background-color: #f0f0f0; /* Dummy background color */
+            position: relative;
+        }
+
+        /* Centered overlay with title and buttons */
+        .content-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10; /* Ensure it's on top */
+            color: #fff; /* White text for contrast, adjustable */
+        }
+
+        .content-title {
+            font-size: 3rem; /* Large title size */
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* For readability on varied backgrounds */
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .login-btn {
+            background-color: #1a3c5a; /* Navy blue color */
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none; /* If it's a link */
+            display: inline-block;
+        }
+
+        .signup-btn {
+            background-color: #26a69a; /* Teal green color */
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none; /* If it's a link */
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="content-overlay">
+            <h1 class="content-title">Disaster Relief</h1>
+            <div class="button-group">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="signup.html" class="signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

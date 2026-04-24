@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Relief Login</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling if needed */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container with the fixed background image */
+        .background-container {
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-color: #f0f0f0; /* Dummy background color */
+            position: relative;
+        }
+
+        /* The glassmorphism card */
+        .login-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px; /* Adjust as needed */
+            padding: 2.5rem;
+            
+            background: rgba(255, 255, 255, 0.4); /* White with transparency */
+            border-radius: 15px;
+            backdrop-filter: blur(10px); /* The blurring effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Title inside the card, styled BLUE as requested */
+        .login-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1a3c5a; /* Navy blue color */
+            margin-bottom: 2rem;
+        }
+
+        /* Styling for labels, BLUE as requested */
+        .input-label {
+            display: block;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #1a3c5a; /* Navy blue color */
+            font-size: 0.9rem;
+        }
+
+        /* Styling for inputs to look like the image */
+        .login-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            
+            background-color: rgba(255, 255, 255, 0.7); /* Lighter gray/white background */
+            border: 1px solid #d1d5db; /* Light gray border */
+            border-radius: 8px;
+            
+            font-size: 1rem;
+            color: #333;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+
+        /* Placeholder text color to match the image */
+        .login-input::placeholder {
+            color: #9ca3af; /* A slightly darker gray */
+        }
+
+        /* Login button styling */
+        .login-submit-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: #1a3c5a; /* Navy blue color */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .login-submit-btn:hover {
+            background-color: #132d43; /* Darker blue on hover */
+        }
+
+        /* Forgot password link styling, BLUE as requested */
+        .forgot-password-link {
+            display: block;
+            font-size: 0.85rem;
+            color: #1a3c5a; /* Navy blue color */
+            text-decoration: none;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline; /* Add underline on hover for visibility */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="login-card">
+            <h1 class="login-title">Login</h1>
+            
+            <form action="#">
+                <label for="email" class="input-label">Email</label>
+                <input type="email" id="email" class="login-input" placeholder="Enter your email" required>
+                
+                <label for="password" class="input-label">Password</label>
+                <input type="password" id="password" class="login-input" placeholder="Enter your password" required>
+                
+                <button type="button" class="login-submit-btn" onclick="window.location.href='citizen.html'">Login</button>
+            </form>
+            
+            <a href="#" class="forgot-password-link">Forgot password?</a>
+        </div>
+    </div>
+</body>
+</html>

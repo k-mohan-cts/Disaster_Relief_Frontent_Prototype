@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification History - Disaster Relief</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-bg: #163850;
+            --main-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+
+            /* Notification specific colors */
+            --notif-pending-bg: #fffbeb;
+            --notif-pending-border: #fef3c7;
+            --notif-action-bg: #eff6ff;
+            --notif-action-border: #dbeafe;
+            --notif-verified-bg: #f0fdf4;
+            --notif-verified-border: #dcfce7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--main-bg);
+            overflow: hidden;
+        }
+
+        /* SIDEBAR PLACEHOLDER */
+        #sidebar-placeholder {
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-navbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-container {
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* NOTIFICATION CARDS */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notif-card {
+            display: flex;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .notif-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Contextual Backgrounds */
+        .bg-pending { background-color: var(--notif-pending-bg); border-color: var(--notif-pending-border); }
+        .bg-action { background-color: var(--notif-action-bg); border-color: var(--notif-action-border); }
+        .bg-verified { background-color: var(--notif-verified-bg); border-color: var(--notif-verified-border); }
+
+        .notif-icon-container {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            border: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .icon-yellow { color: #d97706; }
+        .icon-blue { color: #2563eb; }
+        .icon-green { color: #16a34a; }
+        .icon-red { color: #dc2626; }
+
+        .notif-content { flex: 1; padding-right: 80px; }
+        
+        .notif-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .notif-title { font-weight: 700; font-size: 16px; color: var(--text-dark); }
+
+        .notif-badge {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-action { background: #dbeafe; color: #1e40af; }
+        .badge-verified { background: #dcfce7; color: #166534; }
+
+        .notif-desc {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .notif-date {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar">
+            <div style="font-size: 18px; color: var(--text-light); cursor: pointer;"><i class="far fa-bell"></i></div>
+        </nav>
+
+        <main class="content-container">
+            <header class="page-header">
+                <h1>Notification History</h1>
+                <p>Track your recent activity, document status changes, and system alerts.</p>
+            </header>
+
+            <div class="notification-list">
+                
+                <div class="notif-card bg-pending">
+                    <div class="notif-icon-container">
+                        <i class="far fa-clock icon-yellow"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-title-row">
+                            <span class="notif-title">Document Pending Review</span>
+                            <span class="notif-badge badge-pending">Pending</span>
+                        </div>
+                        <p class="notif-desc">Your PDF document <strong>"Proof_of_Address.pdf"</strong> has been submitted and is currently awaiting verification by our team.</p>
+                    </div>
+                    <div class="notif-date">Oct 16, 2023</div>
+                </div>
+
+                <div class="notif-card bg-action">
+                    <div class="notif-icon-container">
+                        <i class="fas fa-file-export icon-blue"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-title-row">
+                            <span class="notif-title">Emergency Report Logged</span>
+                            <span class="notif-badge badge-action">Your Action</span>
+                        </div>
+                        <p class="notif-desc">You successfully reported a <strong>Fire emergency</strong> at Pine Hills district. Local authorities have been notified.</p>
+                    </div>
+                    <div class="notif-date">Oct 15, 2023</div>
+                </div>
+
+                <div class="notif-card bg-verified">
+                    <div class="notif-icon-container">
+                        <i class="far fa-check-circle icon-green"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-title-row">
+                            <span class="notif-title">Identity Verified</span>
+                            <span class="notif-badge badge-verified">Verified</span>
+                        </div>
+                        <p class="notif-desc">Your document <strong>"Identity_Card_Front.jpg"</strong> has been approved. You now have full access to relief resource requests.</p>
+                    </div>
+                    <div class="notif-date">Oct 15, 2023</div>
+                </div>
+
+                <div class="notif-card bg-action">
+                    <div class="notif-icon-container" style="border-color: #fee2e2;">
+                        <i class="fas fa-exclamation-triangle icon-red"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-title-row">
+                            <span class="notif-title">Document Re-upload Required</span>
+                            <span class="notif-badge badge-action" style="background:#fee2e2; color:#b91c1c;">Urgent</span>
+                        </div>
+                        <p class="notif-desc">Your document <strong>"Medical_Certificate.doc"</strong> was rejected due to low image clarity. Please upload a clearer copy to proceed.</p>
+                    </div>
+                    <div class="notif-date">Oct 10, 2023</div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // SIDEBAR LOADER SCRIPT
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const placeholder = document.getElementById('sidebar-placeholder');
+                placeholder.innerHTML = data;
+                
+                // Re-execute scripts inside the sidebar to handle active state highlighting
+                const scripts = placeholder.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = oldScript.textContent;
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(err => console.error("Error loading sidebar:", err));
+    </script>
+</body>
+</html>

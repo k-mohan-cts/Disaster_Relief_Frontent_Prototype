@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview | Disaster Relief</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            display: flex; 
+            height: 100vh; 
+            background-color: #f8fafc; 
+            overflow: hidden; 
+        }
+
+        /* Container for the sidebar injection */
+        #sidebar-placeholder { 
+            height: 100vh; 
+            flex-shrink: 0; 
+        }
+
+        /* Content Area Container */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Top Bar */
+        .top-navbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .main-content { padding: 30px 40px; }
+
+        /* Document Verification Banner */
+        .verification-banner {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .banner-info { display: flex; align-items: center; gap: 16px; }
+        .icon-shield { 
+            width: 48px; height: 48px; background: #f0fdfa; color: #14b8a6; 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; 
+        }
+        .banner-text h2 { font-size: 18px; font-weight: 700; color: #0f172a; }
+        .banner-text p { font-size: 14px; color: #64748b; }
+        .verify-btn { 
+            background: #14b8a6; color: white; border: none; padding: 10px 20px; 
+            border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .verify-btn:hover { background: #0f9688; }
+
+        /* Dashboard Grid System */
+        .dashboard-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            margin-bottom: 24px; 
+        }
+
+        .card { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 12px; 
+            padding: 24px; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-header h3 { font-size: 16px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 10px; }
+
+        /* Previous Reports Styling */
+        .report-item { 
+            display: flex; justify-content: space-between; align-items: flex-start; 
+            padding: 16px 0; border-bottom: 1px solid #f1f5f9; 
+        }
+        .report-item:last-child { border-bottom: none; }
+        .report-meta h4 { font-size: 15px; font-weight: 600; color: #0f172a; }
+        .report-meta span { font-size: 13px; color: #94a3b8; display: block; margin-top: 4px; }
+        .status-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        .validated { background: #dcfce7; color: #15803d; }
+        .resolved { background: #f1f5f9; color: #475569; }
+        
+        .emergency-btn { 
+            width: 100%; background: #dc2626; color: white; border: none; 
+            padding: 12px; border-radius: 8px; font-weight: 600; margin-top: 15px; cursor: pointer; 
+        }
+
+        /* Shelter Progress Bars */
+        .shelter-item { margin-bottom: 18px; }
+        .shelter-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #475569; }
+        .progress-container { height: 8px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; border-radius: 10px; }
+
+        /* Map UI */
+        #map { 
+            width: 100%; height: 300px; border-radius: 8px; border: 1px solid #e2e8f0; 
+            margin-top: 10px; z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar">
+            <div style="font-size: 18px; color: #64748b; cursor: pointer;"><i class="far fa-bell"></i></div>
+        </nav>
+
+        <main class="main-content">
+            <div class="verification-banner">
+                <div class="banner-info">
+                    <div class="icon-shield"><i class="fas fa-file-signature"></i></div>
+                    <div class="banner-text">
+                        <h2>Document Verification</h2>
+                        <p>Upload and verify your identity documents to expedite relief access.</p>
+                    </div>
+                </div>
+                <button class="verify-btn">Verify Now</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Previous Reports</h3>
+                        <a href="#" style="font-size: 13px; color: #3b82f6; text-decoration: none; font-weight: 600;">View All <i class="fas fa-chevron-right" style="font-size: 10px;"></i></a>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-meta">
+                            <h4>Flood Emergency</h4>
+                            <span><i class="fas fa-map-marker-alt"></i> Riverside District</span>
+                            <span><i class="far fa-calendar"></i> 01/10/2023</span>
+                        </div>
+                        <span class="status-badge validated">Validated</span>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-meta">
+                            <h4>Fire Emergency</h4>
+                            <span><i class="fas fa-map-marker-alt"></i> Pine Hills</span>
+                            <span><i class="far fa-calendar"></i> 15/10/2023</span>
+                        </div>
+                        <span class="status-badge resolved">Resolved</span>
+                    </div>
+                    <button class="emergency-btn"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> Create Emergency Report</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hospital-alt" style="color: #3b82f6;"></i> Nearby Shelters</h3>
+                    </div>
+                    <div class="shelter-item">
+                        <div class="shelter-info"><span>Central High School</span> <span>450/500 (90%)</span></div>
+                        <div class="progress-container"><div class="progress-bar" style="width: 90%; background: #f59e0b;"></div></div>
+                    </div>
+                    <div class="shelter-item">
+                        <div class="shelter-info"><span>Community Center</span> <span>200/200 (100%)</span></div>
+                        <div class="progress-container"><div class="progress-bar" style="width: 100%; background: #ef4444;"></div></div>
+                    </div>
+                    <div class="shelter-item">
+                        <div class="shelter-info"><span>City Arena</span> <span>120/1000 (12%)</span></div>
+                        <div class="progress-container"><div class="progress-bar" style="width: 12%; background: #10b981;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-map-marked-alt" style="color: #3b82f6;"></i> Your Location</h3>
+                    <span style="font-size: 12px; color: #64748b;"><i class="fas fa-circle" style="color: #10b981; font-size: 8px; margin-right: 4px;"></i> Live Updates</span>
+                </div>
+                <div id="map"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 1. Sidebar Fetch Logic
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const placeholder = document.getElementById('sidebar-placeholder');
+                placeholder.innerHTML = data;
+                
+                // Re-inject sidebar scripts to trigger auto-highlighting
+                const scripts = placeholder.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = oldScript.textContent;
+                    document.body.appendChild(newScript);
+                });
+            });
+
+        // 2. Leaflet Map Logic (Guduvancheri, TN)
+        document.addEventListener('DOMContentLoaded', function() {
+            const lat = 12.8447;
+            const lng = 80.0597;
+            const map = L.map('map').setView([lat, lng], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup("<b>Your Current Location</b><br>Guduvancheri, Tamil Nadu")
+                .openPopup();
+
+            // Refresh map size to avoid layout glitches
+            setTimeout(() => { map.invalidateSize(); }, 400);
+        });
+    </script>
+</body>
+</html>
