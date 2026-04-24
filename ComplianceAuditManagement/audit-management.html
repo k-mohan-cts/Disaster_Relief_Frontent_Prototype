@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Management - DisasterRelief</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="navigation.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        sidebar: '#1a365d',
+                        sidebarHover: '#2a4a75',
+                        brandBlue: '#1a4b6e',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        
+        /* Custom Scrollbar for Sidebar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+            background-color: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+            border: 3px solid #f1f5f9;
+        }
+
+        /* Sidebar active state indicator (matching screenshot) */
+        .sidebar-active {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid white;
+        }
+        .sidebar-active i, .sidebar-active span {
+            color: white !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+    <!-- Navigation will be injected here dynamically -->
+    <script src="navigation.js"></script>
+
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white">
+        
+        <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-8 shrink-0">
+            <h1 class="text-xl font-bold text-slate-800">Compliance & Audits</h1>
+            
+            <div class="flex items-center space-x-6">
+                <button class="relative text-gray-500 hover:text-gray-700">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                </button>
+                
+                <div class="h-6 w-px bg-gray-300"></div>
+                
+                <span class="px-3 py-1 bg-white border border-blue-200 text-blue-600 rounded-md text-sm font-medium shadow-sm">
+                    Compliance
+                </span>
+                
+                <button class="flex items-center text-gray-600 hover:text-gray-800 text-sm font-medium">
+                    <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                    Sign out
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 bg-gray-50/50">
+            
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-1">Audit Management</h2>
+                    <p class="text-gray-500 text-sm">Manage and track internal audits and oversight activities.</p>
+                </div>
+                <div>
+                    <button class="bg-brandBlue hover:bg-blue-900 text-white px-4 py-2.5 rounded-md text-sm font-medium flex items-center shadow-sm transition-colors">
+                        <i class="fa-solid fa-plus mr-2"></i> New Audit Session
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="border-b border-gray-200 bg-white">
+                            <tr>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Audit ID</th>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Officer ID</th>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Scope</th>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Findings</th>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Date</th>
+                                <th class="px-6 py-4 text-sm font-bold text-slate-800">Status</th>
+                                <th class="px-6 py-4"></th> </tr>
+                        </thead>
+                        
+                        <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
+                            
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <a href="#" class="text-blue-600 hover:underline hover:text-blue-800 border-b border-blue-600 border-dashed pb-0.5">AUD-0001</a>
+                                </td>
+                                <td class="px-6 py-4">USR-4</td>
+                                <td class="px-6 py-4 font-semibold text-slate-700">Q3 Relief Distribution Logs</td>
+                                <td class="px-6 py-4 truncate max-w-[250px] text-gray-500" title="Minor discrepancies in water distrib...">Minor discrepancies in water distrib...</td>
+                                <td class="px-6 py-4">20/10/2023</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-green-100 text-emerald-700 rounded-full text-xs font-semibold">Completed</span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-gray-500 hover:text-gray-700 font-medium">Edit</button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <a href="#" class="text-blue-600 hover:underline hover:text-blue-800 border-b border-blue-600 border-dashed pb-0.5">AUD-0002</a>
+                                </td>
+                                <td class="px-6 py-4">USR-4</td>
+                                <td class="px-6 py-4 font-semibold text-slate-700">Coastal Flood Program Budget</td>
+                                <td class="px-6 py-4">
+                                    <span class="italic text-gray-400">No findings documented</span>
+                                </td>
+                                <td class="px-6 py-4">1/11/2023</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">Scheduled</span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-gray-500 hover:text-gray-700 font-medium">Edit</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+</body>
+</html>

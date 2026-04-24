@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Relief - Sign Up</title>
+    <style>
+        :root {
+            /* The specific navy blue requested for text */
+            --brand-blue: #1a3c5a; 
+            --accent-teal: #26a69a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Background container using your local image */
+        .background-provider {
+            width: 100%;
+            height: 100vh;
+            background-image: url('../images/bg.png'); 
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Glassmorphism Card */
+        .signup-card {
+            width: 450px;
+            max-height: 85vh; /* Prevents card from going off-screen */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-submit-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: #1a3c5a; /* Navy blue color */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        /* Scrollable Content Area */
+        .scroll-content {
+            padding: 30px;
+            overflow-y: auto;
+            /* Custom scrollbar styling for a clean look */
+            scrollbar-width: thin;
+            scrollbar-color: var(--brand-blue) transparent;
+        }
+
+        .scroll-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroll-content::-webkit-scrollbar-thumb {
+            background: var(--brand-blue);
+            border-radius: 10px;
+        }
+
+        /* Blue Text Styling for Title and Labels */
+        .signup-title {
+            color: var(--brand-blue);
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--brand-blue); /* Label text made blue as requested */
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        /* Input Field Styling */
+        .field {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .field::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Teal Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-teal);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e8e83;
+        }
+
+        /* Footer Link */
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--brand-blue); /* Footer text made blue as requested */
+        }
+
+        .footer-text a {
+            color: var(--brand-blue);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-provider">
+        <div class="signup-card">
+            <div class="scroll-content">
+                <h1 class="signup-title">Sign Up</h1>
+                
+                <form action="#">
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" class="field" placeholder="Enter your name">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <select class="field">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Date of Birth (YYYY-MM-DD)</label>
+                        <input type="date" class="field">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Contact Info</label>
+                        <input type="text" class="field" placeholder="Phone or Email">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Address</label>
+                        <textarea class="field" rows="3" placeholder="Enter your address"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" class="field" placeholder="Create a password">
+                    </div>
+
+                    <button type="button" class="login-submit-btn" onclick="window.location.href='lander.html'">Sign Up</button>                </form>
+
+                <p class="footer-text">
+                    Already registered? <a href="login.html">click here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

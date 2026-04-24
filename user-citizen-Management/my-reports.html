@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reports - Disaster Relief</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-bg: #163850;
+            --main-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            
+            /* Status Tags */
+            --tag-validated-bg: #dcfce7;
+            --tag-validated-txt: #15803d;
+            --tag-resolved-bg: #f1f5f9;
+            --tag-resolved-txt: #475569;
+            --tag-pending-bg: #fef3c7;
+            --tag-pending-txt: #92400e;
+            
+            --icon-bg-danger: #fee2e2;
+            --icon-txt-danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--main-bg);
+            overflow: hidden;
+        }
+
+        /* SIDEBAR PLACEHOLDER */
+        #sidebar-placeholder {
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-navbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-container {
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* REPORT CARDS */
+        .reports-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .report-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+
+        .report-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .report-title-section {
+            display: flex;
+            gap: 16px;
+        }
+
+        .danger-icon-box {
+            width: 48px;
+            height: 48px;
+            background-color: var(--icon-bg-danger);
+            color: var(--icon-txt-danger);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .report-title-section h2 { 
+            font-size: 18px; 
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px; 
+        }
+
+        .report-id { 
+            font-size: 13px; 
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-validated { background: var(--tag-validated-bg); color: var(--tag-validated-txt); }
+        .status-resolved { background: var(--tag-resolved-bg); color: var(--tag-resolved-txt); }
+        .status-pending { background: var(--tag-pending-bg); color: var(--tag-pending-txt); }
+
+        .report-details {
+            margin-left: 64px;
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .detail-item i { 
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .report-note {
+            margin-left: 64px;
+            background-color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.6;
+            border: 1px solid #f1f5f9;
+            position: relative;
+        }
+
+        .report-note::before {
+            content: "Description";
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar">
+            <div style="font-size: 14px; color: var(--text-light); font-weight: 500;">
+                <i class="fas fa-clock-rotate-left"></i> Last updated: Just now
+            </div>
+        </nav>
+
+        <main class="content-container">
+            <header class="page-header">
+                <h1>My Reports</h1>
+                <p>Monitor the status and details of your submitted emergency incidents.</p>
+            </header>
+
+            <div class="reports-container">
+                
+                <div class="report-card">
+                    <div class="report-top">
+                        <div class="report-title-section">
+                            <div class="danger-icon-box"><i class="fas fa-water"></i></div>
+                            <div>
+                                <h2>Flood Emergency</h2>
+                                <span class="report-id">Ref: #DR-2023-001</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-validated">Validated</span>
+                    </div>
+                    <div class="report-details">
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Riverside District</div>
+                        <div class="detail-item"><i class="far fa-calendar-alt"></i> Oct 1, 2023 • 08:00 PM</div>
+                    </div>
+                    <div class="report-note">
+                        Water level rising rapidly near Main Street. Several basements are already flooded. Emergency drainage required.
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-top">
+                        <div class="report-title-section">
+                            <div class="danger-icon-box"><i class="fas fa-fire"></i></div>
+                            <div>
+                                <h2>Fire Emergency</h2>
+                                <span class="report-id">Ref: #DR-2023-002</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-resolved">Resolved</span>
+                    </div>
+                    <div class="report-details">
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Pine Hills</div>
+                        <div class="detail-item"><i class="far fa-calendar-alt"></i> Oct 15, 2023 • 02:45 PM</div>
+                    </div>
+                    <div class="report-note">
+                        Brush fire spreading towards residential area. Smoke is thick and affecting visibility on the main road.
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-top">
+                        <div class="report-title-section">
+                            <div class="danger-icon-box" style="background: #fff7ed; color: #f97316;"><i class="fas fa-house-damage"></i></div>
+                            <div>
+                                <h2>Structural Damage</h2>
+                                <span class="report-id">Ref: #DR-2023-009</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending">In Review</span>
+                    </div>
+                    <div class="report-details">
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> North Plaza</div>
+                        <div class="detail-item"><i class="far fa-calendar-alt"></i> Oct 24, 2026 • 09:30 AM</div>
+                    </div>
+                    <div class="report-note">
+                        Cracks appearing in the supporting pillars of the community center following the recent tremors.
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // SIDEBAR LOADER SCRIPT
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const placeholder = document.getElementById('sidebar-placeholder');
+                placeholder.innerHTML = data;
+                
+                // Re-execute scripts inside the sidebar to handle active state highlighting
+                const scripts = placeholder.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = oldScript.textContent;
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(err => console.error("Error loading sidebar:", err));
+    </script>
+</body>
+</html>

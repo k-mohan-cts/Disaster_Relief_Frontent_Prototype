@@ -1,0 +1,81 @@
+<div class="sidebar" style="height: 100vh; width: 260px; background-color: #1a3345; color: white; display: flex; flex-direction: column; font-family: sans-serif;">
+    
+    <div class="logo-container" style="padding: 20px 20px 10px 20px; text-align: center;">
+        <div style="background: white; color: #1a3345; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fas fa-shield-alt" style="font-size: 18px;"></i>
+            <span>DisasterRelief</span>
+        </div>
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; padding-top: 20px;">
+        
+        <div class="nav-section">
+            <div class="nav-title" style="font-size: 11px; color: #9ab0bf; text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; font-weight: 600;">Dashboard</div>
+            <ul class="nav-links" style="list-style: none; padding: 0; margin: 0;">
+                <li><a href="citizen-dashboard.html" class="nav-item" style="display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; font-size: 14px; margin: 0 12px; border-radius: 8px;"><i class="fas fa-home" style="margin-right: 18px; width: 20px; text-align: center;"></i> Overview</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section" style="margin-top: 25px;">
+            <div class="nav-title" style="font-size: 11px; color: #9ab0bf; text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; font-weight: 600;">Support & Resources</div>
+            <ul class="nav-links" style="list-style: none; padding: 0; margin: 0;">
+                <li><a href="support-resources.html" class="nav-item" style="display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; font-size: 14px; margin: 0 12px; border-radius: 8px;"><i class="fas fa-heart" style="margin-right: 18px; width: 20px; text-align: center;"></i> Resources</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section" style="margin-top: 25px;">
+            <div class="nav-title" style="font-size: 11px; color: #9ab0bf; text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; font-weight: 600;">Document Vault</div>
+            <ul class="nav-links" style="list-style: none; padding: 0; margin: 0;">
+                <li><a href="document-vault.html" class="nav-item" style="display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; font-size: 14px; margin: 0 12px; border-radius: 8px;"><i class="fas fa-file-alt" style="margin-right: 18px; width: 20px; text-align: center;"></i> Documents</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section" style="margin-top: 25px;">
+            <div class="nav-title" style="font-size: 11px; color: #9ab0bf; text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; font-weight: 600;">Notification History</div>
+            <ul class="nav-links" style="list-style: none; padding: 0; margin: 0;">
+                <li><a href="notifications.html" class="nav-item" style="display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; font-size: 14px; margin: 0 12px; border-radius: 8px;"><i class="fas fa-bell" style="margin-right: 18px; width: 20px; text-align: center;"></i> Notifications</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section" style="margin-top: 25px;">
+            <div class="nav-title" style="font-size: 11px; color: #9ab0bf; text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; font-weight: 600;">My Reports</div>
+            <ul class="nav-links" style="list-style: none; padding: 0; margin: 0;">
+                <li><a href="my-reports.html" class="nav-item" style="display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; font-size: 14px; margin: 0 12px; border-radius: 8px;"><i class="fas fa-file-invoice" style="margin-right: 18px; width: 20px; text-align: center;"></i> History</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="user-profile-container" style="padding: 20px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); background-color: #1a3345;">
+        <div class="user-profile" style="display: flex; align-items: center; gap: 12px;">
+            <div class="avatar" style="width: 36px; height: 36px; background-color: #2a4c63; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4ade80;">J</div>
+            <div class="user-info">
+                <h4 style="font-size: 14px; margin: 0; font-weight: 600;">John Citizen</h4>
+                <p style="font-size: 12px; color: #4ade80; margin: 0;">Citizen</p>
+            </div>
+        </div>
+        <div style="margin-top: 15px;">
+            <button onclick="window.location.href='lander.html'" style="padding: 6px 12px; background: white; color: #1a3345; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-sign-out-alt"></i> Sign out
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Gets the current file name (e.g. "citizen-dashboard.html")
+            const currentFile = window.location.pathname.split("/").pop();
+            
+            // Find all links in the sidebar
+            const links = document.querySelectorAll('.nav-item');
+            
+            links.forEach(link => {
+                // If the href matches our current file
+                if (link.getAttribute('href') === currentFile) {
+                    // Match the blue highlighted style from your image
+                    link.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                    link.style.fontWeight = "bold";
+                }
+            });
+        })();
+    </script>
+</div>

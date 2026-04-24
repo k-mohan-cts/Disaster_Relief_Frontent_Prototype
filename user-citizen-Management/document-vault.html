@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Vault - Disaster Relief</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-bg: #163850;
+            --main-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            
+            /* Status Colors */
+            --status-success-bg: #dcfce7;
+            --status-success-txt: #15803d;
+            --status-pending-bg: #fef9c3;
+            --status-pending-txt: #854d0e;
+            --status-danger-bg: #fee2e2;
+            --status-danger-txt: #b91c1c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--main-bg);
+            overflow: hidden;
+        }
+
+        /* SIDEBAR PLACEHOLDER */
+        #sidebar-placeholder {
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        /* MAIN CONTENT */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-navbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-container {
+            padding: 40px;
+            max-width: 1100px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* TABLE STYLES */
+        .vault-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .vault-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .vault-table th {
+            background-color: #fcfcfd;
+            padding: 16px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .vault-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .vault-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .doc-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doc-icon {
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        .doc-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* STATUS TAGS */
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .verified { background: var(--status-success-bg); color: var(--status-success-txt); }
+        .pending { background: var(--status-pending-bg); color: var(--status-pending-txt); }
+        .rejected { background: var(--status-danger-bg); color: var(--status-danger-txt); }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .action-btn:hover { color: var(--text-dark); }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar">
+            <div style="font-size: 18px; color: var(--text-light); cursor: pointer;"><i class="far fa-bell"></i></div>
+        </nav>
+
+        <main class="content-container">
+            <header class="page-header">
+                <h1>Document Vault</h1>
+                <p>Manage and track the verification status of your identity and relief documents.</p>
+            </header>
+
+            <div class="vault-card">
+                <table class="vault-table">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>Type</th>
+                            <th>Upload Date</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="doc-info">
+                                    <i class="far fa-file-image doc-icon"></i>
+                                    <span class="doc-name">Identity_Card_Front.jpg</span>
+                                </div>
+                            </td>
+                            <td style="color: var(--text-light);">Image</td>
+                            <td style="color: var(--text-light);">15 Oct 2023</td>
+                            <td>
+                                <span class="status-tag verified">
+                                    <i class="fas fa-check-circle"></i> Verified
+                                </span>
+                            </td>
+                            <td><button class="action-btn"><i class="fas fa-ellipsis-v"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="doc-info">
+                                    <i class="far fa-file-pdf doc-icon"></i>
+                                    <span class="doc-name">Proof_of_Address.pdf</span>
+                                </div>
+                            </td>
+                            <td style="color: var(--text-light);">PDF</td>
+                            <td style="color: var(--text-light);">16 Oct 2023</td>
+                            <td>
+                                <span class="status-tag pending">
+                                    <i class="fas fa-clock"></i> Pending
+                                </span>
+                            </td>
+                            <td><button class="action-btn"><i class="fas fa-ellipsis-v"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="doc-info">
+                                    <i class="far fa-file-word doc-icon"></i>
+                                    <span class="doc-name">Medical_Certificate.doc</span>
+                                </div>
+                            </td>
+                            <td style="color: var(--text-light);">Document</td>
+                            <td style="color: var(--text-light);">10 Oct 2023</td>
+                            <td>
+                                <span class="status-tag rejected">
+                                    <i class="fas fa-times-circle"></i> Rejected
+                                </span>
+                            </td>
+                            <td><button class="action-btn"><i class="fas fa-ellipsis-v"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // SIDEBAR LOADER SCRIPT
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const placeholder = document.getElementById('sidebar-placeholder');
+                placeholder.innerHTML = data;
+                
+                // Re-execute scripts inside the sidebar to handle active state highlighting
+                const scripts = placeholder.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = oldScript.textContent;
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(err => console.error("Error loading sidebar:", err));
+    </script>
+</body>
+</html>
