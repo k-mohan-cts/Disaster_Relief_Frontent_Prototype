@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Recovery Program — Disaster Relief</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/vYm68Zz/logo.png" alt="Logo">
+            </div>
+        </div>
+        <a href="dashboard-page.html" class="nav-item">🏠 Dashboard</a>
+        <div class="nav-label">COMMAND CENTER</div>
+        <a href="emergencies-page.html" class="nav-item">⚠️ Emergencies</a>
+        <a href="incidents-page.html" class="nav-item">📈 Incidents</a>
+        <a href="recovery-page.html" class="nav-item">📋 Recovery Programs</a>
+        <a href="resources-page.html" class="nav-item">📦 Resources</a>
+        <div class="nav-label">RELIEF OPERATIONS</div>
+        <a href="inventory-page.html" class="nav-item">🏢 Relief Inventory</a>
+        <a href="distributions-page.html" class="nav-item">🚚 Distributions</a>
+        <a href="shelters-page.html" class="nav-item">⛺ Shelters</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <header>
+            <h2>Create Recovery Program</h2>
+            <div class="header-actions">
+                <span style="font-size: 20px;">🔔</span>
+                <button class="pill-btn">Manager</button>
+                <span style="cursor:pointer; font-size: 14px;">Sign out</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="card">
+                <div class="form-container">
+                    <div class="form-group"><label>Program Name</label><input type="text" placeholder="e.g. Coastal Flood Rehabilitation"></div>
+                    <div class="form-group"><label>Budget Allocation</label><input type="text" placeholder="$5,000,000"></div>
+                    <div class="form-group"><label>Description</label><textarea placeholder="Describe the recovery program..."></textarea></div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                        <a class="btn-outline button-link" href="recovery-page.html">Cancel</a>
+                        <a class="btn-green button-link" href="recovery-page.html">Create Program</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

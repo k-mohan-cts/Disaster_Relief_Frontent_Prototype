@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Details — Disaster Relief</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-box">
+                <img src="https://i.ibb.co/vYm68Zz/logo.png" alt="Logo">
+            </div>
+        </div>
+        <a href="dashboard-page.html" class="nav-item">🏠 Dashboard</a>
+        <div class="nav-label">COMMAND CENTER</div>
+        <a href="emergencies-page.html" class="nav-item">⚠️ Emergencies</a>
+        <a href="incidents-page.html" class="nav-item">📈 Incidents</a>
+        <a href="recovery-page.html" class="nav-item">📋 Recovery Programs</a>
+        <a href="resources-page.html" class="nav-item">📦 Resources</a>
+        <div class="nav-label">RELIEF OPERATIONS</div>
+        <a href="inventory-page.html" class="nav-item active">🏢 Relief Inventory</a>
+        <a href="distributions-page.html" class="nav-item">🚚 Distributions</a>
+        <a href="shelters-page.html" class="nav-item">⛺ Shelters</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <header>
+            <h2>Inventory Details</h2>
+            <div class="header-actions">
+                <span style="font-size: 20px;">🔔</span>
+                <button class="pill-btn">Manager</button>
+                <span style="cursor:pointer; font-size: 14px;">Sign out</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="card">
+                <h1>Emergency Food Packs</h1>
+                <p class="small-note">Type: Food</p>
+                <div style="margin-top: 24px;"><h3>Quantity</h3><p>2,500 Packs</p></div>
+                <div style="margin-top: 16px;"><h3>Status</h3><p><span class="badge badge-available">Available</span></p></div>
+                <div style="margin-top: 24px; display:flex; gap:12px; justify-content:flex-end;">
+                    <a class="btn-outline button-link" href="inventory-page.html">Back to Inventory</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
