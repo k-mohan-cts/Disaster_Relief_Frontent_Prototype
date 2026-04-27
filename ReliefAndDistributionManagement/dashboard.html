@@ -543,11 +543,9 @@ function fillDashboard() {
   const renderStatusList = (targetId, stats) => {
     const target = document.getElementById(targetId);
     if (!target) return;
-    const total = Math.max(1, Object.values(stats).reduce((sum, value) => sum + value, 0));
     target.innerHTML = Object.entries(stats).map(([label, count]) => {
       const tone = toneForStatus(label);
-      const percent = Math.round((count / total) * 100);
-      return `<div class="status-item"><div class="status-row"><span><i class="dot ${tone}"></i>${label}</span><b>${count}</b></div><div class="status-meter"><span class="${tone}" style="width:${percent}%"></span></div></div>`;
+      return `<div class="status-row" style="margin-bottom: 6px;"><span><i class="dot ${tone}"></i>${label}</span><b>${count}</b></div>`;
     }).join("");
   };
 
