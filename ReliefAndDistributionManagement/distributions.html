@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Distributions</title><style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color-brand-black: #1B2A3A;
+  --color-brand-blue: #1B4965;
+  --color-brand-maroon: #1B4965;
+  --color-brand-teal: #2A6F97;
+  --color-brand-light-blue: #5FA8D3;
+  --color-brand-forest: #7A9B76;
+  --color-brand-olive: #4d7c0f;
+  --color-brand-orange: #E8A838;
+  --color-brand-red: #E8A838;
+  --color-brand-danger: #DC3545;
+  --color-brand-yellow: #d4e100;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Inter", sans-serif; font-weight: 500; background: #f9fafb; color: #374151; }
+a { text-decoration: none; color: inherit; }
+button, input, select, textarea { font: inherit; }
+
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 208px; background: linear-gradient(to bottom, #1B4965, #1B4965, #153A52); color: #d1d5db; display: flex; flex-direction: column; border-right: 1px solid #153A52; }
+.brand { height: 64px; display: flex; align-items: center; gap: 10px; padding: 0 16px; font-weight: 700; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 18px; }
+.brand span { font-size: 32px; }
+
+.side-nav { padding: 8px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.nav-group-title { margin: 12px 8px 4px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.nav-group-title.operations { color: var(--color-brand-teal); }
+.nav-group-title.emergencies { color: var(--color-brand-danger); }
+.nav-group-title.recovery { color: var(--color-brand-forest); }
+.nav-group-title.governance { color: var(--color-brand-maroon); }
+
+.nav-link { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; font-weight: 500; color: #d1d5db; transition: .2s; }
+.nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+.nav-link.active.operations { color: #fff; background: rgba(42, 111, 151, 0.8); border: 1px solid var(--color-brand-teal); }
+.nav-link.active.emergencies { color: #fff; background: rgba(220, 53, 69, 0.8); border: 1px solid var(--color-brand-danger); }
+.nav-link.active.recovery { color: #fff; background: rgba(122, 155, 118, 0.8); border: 1px solid var(--color-brand-forest); }
+.nav-link.active.governance { color: #fff; background: rgba(27, 73, 101, 0.8); border: 1px solid var(--color-brand-maroon); }
+
+.profile { height: 58px; border-top: 1px solid rgba(255, 255, 255, .1); padding: 8px 12px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .2); }
+.profile .avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(to bottom right, var(--color-brand-forest), #16a34a); color: #fff; display: grid; place-items: center; font-weight: 700; }
+.profile p { margin: 0; color: #fff; font-weight: 700; font-size: 14px; }
+.profile small { color: #d1d5db; }
+
+.content { flex: 1; min-width: 0; }
+.topbar { height: 64px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; }
+.topbar h1 { margin: 0; font-size: 18px; font-weight: 700; color: var(--color-brand-black); }
+.topbar-right { display: flex; align-items: center; gap: 14px; color: #6b7280; }
+.bell { position: relative; font-size: 18px; }
+.bell::after { content: ""; position: absolute; top: 0; right: -2px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-brand-danger); box-shadow: 0 0 0 2px #fff; }
+.role-chip { border: 1px solid #93c5fd; color: var(--color-brand-teal); background: rgba(42, 111, 151, 0.1); font-weight: 700; border-radius: 7px; padding: 4px 12px; font-size: 13px; }
+.text-btn { border: 0; background: transparent; color: #6b7280; cursor: pointer; font-weight: 600; }
+
+.main { padding: 14px 16px; background: #f9fafb; }
+.page { display: flex; flex-direction: column; gap: 14px; }
+.page h2 { margin: 0; font-size: 38px; line-height: 1.2; color: var(--color-brand-black); font-weight: 700; }
+.sub { margin: 4px 0 0; color: #6b7280; font-weight: 500; font-size: 14px; }
+.date { color: #6b7280; font-size: 14px; font-weight: 500; }
+.page-row, .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.head-actions { display: flex; align-items: center; gap: 10px; }
+.search { width: 365px; max-width: 100%; height: 42px; border: 1px solid #d1d5db; border-radius: 8px; padding: 0 14px; background: #f9fafb; color: #374151; }
+
+.btn { border: 0; border-radius: 10px; font-weight: 700; cursor: pointer; padding: 10px 14px; font-size: 14px; display: inline-block; transition: .25s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-login { background: linear-gradient(135deg, #1B4965, #2A6F97); color: #fff; box-shadow: 0 10px 20px rgba(27, 73, 101, 0.3); }
+.btn-login:hover { box-shadow: 0 14px 24px rgba(27, 73, 101, 0.38); }
+.btn-operations { background: linear-gradient(135deg, #2A6F97, #1D5B83); color: #fff; box-shadow: 0 8px 16px rgba(42, 111, 151, 0.3); }
+.btn-operations:hover { box-shadow: 0 12px 20px rgba(42, 111, 151, 0.38); }
+.btn-recovery { background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; box-shadow: 0 8px 16px rgba(22, 163, 74, 0.3); }
+.btn-recovery:hover { box-shadow: 0 12px 20px rgba(22, 163, 74, 0.38); }
+.btn-compliance { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; box-shadow: 0 8px 16px rgba(124, 58, 237, 0.28); }
+.btn-compliance:hover { box-shadow: 0 12px 20px rgba(124, 58, 237, 0.36); }
+.btn-emergency { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; box-shadow: 0 8px 16px rgba(239, 68, 68, 0.3); }
+.btn-emergency:hover { box-shadow: 0 12px 20px rgba(239, 68, 68, 0.38); }
+.btn-secondary, .btn-muted { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+.btn-secondary:hover, .btn-muted:hover { background: #f9fafb; }
+
+.stats-grid { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.card, .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; }
+.card-body { padding: 12px; }
+.card h4 { margin: 0; color: #6b7280; font-size: 14px; font-weight: 700; }
+.stat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  border: 1px solid;
+}
+.stat-icon.emergency { background: #ffe4e6; color: #e11d48; border-color: #fecdd3; }
+.stat-icon.shelters { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
+.stat-icon.programs { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.stat-icon.inventory { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+.stat-icon.citizens { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; }
+.big { margin: 2px 0 8px; font-size: 36px; font-weight: 700; color: var(--color-brand-black); }
+.mini-list { display: grid; gap: 6px; }
+.mini-list div { display: flex; justify-content: space-between; font-size: 13px; color: #6b7280; }
+.mini-list b { color: var(--color-brand-black); }
+.status-card {
+  border: 1px solid #dbe4ee;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+.status-card .card-body {
+  border-top: 3px solid #cfe3f3;
+}
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  font-size: 14px;
+}
+.status-item {
+  display: grid;
+  gap: 5px;
+}
+.status-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5563;
+}
+.status-meter {
+  height: 7px;
+  border-radius: 9999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+.status-meter span {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  transition: width .35s ease;
+}
+.status-meter .emerald { background: linear-gradient(90deg, #34d399, #10b981); }
+.status-meter .sky { background: linear-gradient(90deg, #38bdf8, #0ea5e9); }
+.status-meter .violet { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+.status-meter .amber { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.status-meter .rose { background: linear-gradient(90deg, #fb7185, #f43f5e); }
+.status-meter .slate { background: linear-gradient(90deg, #cbd5e1, #94a3b8); }
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+.dot.emerald { background: #10b981; }
+.dot.sky { background: #0ea5e9; }
+.dot.violet { background: #8b5cf6; }
+.dot.amber { background: #f59e0b; }
+.dot.rose { background: #f43f5e; }
+.dot.slate { background: #94a3b8; }
+
+.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.panel-head { padding: 14px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; background: #f9fafb; }
+.panel-head h3 { margin: 0; font-size: 18px; color: var(--color-brand-black); font-weight: 700; }
+.panel-head a { color: var(--color-brand-teal); font-weight: 700; font-size: 14px; }
+.list-item { position: relative; padding: 14px 16px; border-bottom: 1px solid #f3f4f6; }
+.list-item:last-child { border-bottom: 0; }
+.list-item p { margin: 0 0 4px; font-size: 14px; color: #374151; }
+.list-item small { color: #6b7280; font-size: 14px; }
+.list-item .pill { position: absolute; right: 14px; top: 15px; }
+
+.pill { display: inline-flex; align-items: center; border-radius: 9999px; padding: 4px 11px; font-size: 13px; font-weight: 700; border: 1px solid; }
+.pill.emerald { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; border-color: #6ee7b7; }
+.pill.amber { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; border-color: #fcd34d; }
+.pill.sky { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; border-color: #93c5fd; }
+.pill.rose { background: linear-gradient(135deg, #ffe4e6, #fecdd3); color: #9f1239; border-color: #fda4af; }
+.pill.violet { background: linear-gradient(135deg, #ede9fe, #ddd6fe); color: #5b21b6; border-color: #c4b5fd; }
+.pill.slate { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #475569; border-color: #cbd5e1; }
+
+.program-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.budget-line { display: flex; justify-content: space-between; color: #6b7280; font-weight: 500; font-size: 13px; margin: 8px 0; }
+.progress { height: 8px; border-radius: 10px; background: #e5e7eb; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--color-brand-forest); }
+.progress.warn span { background: var(--color-brand-orange); }
+.progress.danger span { background: var(--color-brand-danger); }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 11px 14px; border-bottom: 1px solid #f3f4f6; text-align: left; font-size: 14px; color: #4b5563; }
+th { font-size: 14px; color: var(--color-brand-black); background: #f9fafb; font-weight: 700; border-bottom: 1px solid #e5e7eb; }
+td strong { color: var(--color-brand-black); font-weight: 700; }
+td small { display: block; color: #6b7280; margin-top: 2px; font-size: 12px; }
+.actions { white-space: nowrap; }
+.actions a { color: var(--color-brand-teal); font-weight: 700; margin-left: 12px; }
+.actions .danger { color: var(--color-brand-danger); }
+.eye { color: #94a3b8; font-size: 14px; }
+
+.shelter-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.shelter-head { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.shelter-head h3 { margin: 0; font-size: 21px; color: var(--color-brand-black); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.occ-row { margin: 8px 0 6px; display: flex; justify-content: space-between; color: #6b7280; font-size: 14px; }
+.occ-row strong { color: var(--color-brand-black); }
+.card-link { display: block; border-top: 1px solid #f3f4f6; padding: 11px 14px; color: var(--color-brand-teal); text-align: right; font-weight: 700; font-size: 14px; }
+.card-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.card-actions .card-link { border-top: 1px solid #f3f4f6; text-align: center; }
+.card-link-edit { color: #2563eb; border-left: 1px solid #f3f4f6; }
+.card-link-danger { color: #dc2626; border-left: 1px solid #f3f4f6; }
+
+.pad { padding: 14px 16px; }
+.triple { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 14px; }
+label { display: block; font-weight: 700; color: #111827; margin-bottom: 6px; }
+.muted-box { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 8px; padding: 11px; color: #4b5563; font-size: 15px; }
+.detail-title { margin: 4px 0 2px; font-size: 22px; color: var(--color-brand-black); font-weight: 700; }
+
+.form-wrap .panel { max-width: 860px; }
+.form-grid { padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid-item { background: #fff; }
+.budget-info { border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; padding: 12px; }
+.budget-title { margin: 0 0 10px; font-weight: 700; color: var(--color-brand-forest); font-size: 14px; }
+.budget-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.budget-grid span { display: block; color: #6b7280; font-size: 13px; margin-bottom: 4px; }
+.budget-grid strong { color: var(--color-brand-black); font-size: 25px; font-weight: 700; }
+.remaining-ok { color: #059669 !important; }
+.remaining-low { color: var(--color-brand-danger) !important; }
+.total-cost-box { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+.total-cost-box span { color: #4b5563; font-weight: 700; }
+.total-cost-box strong { color: var(--color-brand-black); font-size: 25px; font-weight: 700; }
+input, select, textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 9px 11px; background: #f9fafb; }
+textarea { min-height: 90px; resize: vertical; }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 12px 14px; border-top: 1px solid #e5e7eb; background: #f9fafb; }
+
+.login-page { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(to bottom right, #1B2A3A, #1B4965, #2A6F97); padding: 18px; position: relative; overflow: hidden; }
+.login-page::before { content: ""; position: absolute; top: -120px; left: -120px; width: 320px; height: 320px; border-radius: 50%; background: rgba(95, 168, 211, 0.2); filter: blur(50px); }
+.login-page::after { content: ""; position: absolute; right: -120px; bottom: -120px; width: 320px; height: 320px; border-radius: 50%; background: rgba(42, 111, 151, 0.2); filter: blur(50px); }
+.login-card { width: min(440px, 100%); background: #fff; border-radius: 16px; box-shadow: 0 25px 60px rgba(7, 16, 28, 0.32); padding: 30px; position: relative; z-index: 2; }
+.login-card h2 { margin: 0; font-size: 34px; color: var(--color-brand-black); text-align: center; font-weight: 700; }
+.login-card p { margin: 8px 0 20px; text-align: center; color: #6b7280; font-size: 14px; }
+.login-card form { display: flex; flex-direction: column; gap: 10px; }
+.login-btn { margin-top: 4px; width: 100%; }
+
+@media (max-width: 1100px) {
+  .stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .split-grid, .shelter-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .search { width: 100%; }
+  .page-head, .page-row { flex-direction: column; align-items: stretch; }
+  .head-actions { flex-wrap: wrap; }
+  .program-cards { grid-template-columns: 1fr; }
+  .triple { grid-template-columns: 1fr; }
+  .budget-grid { grid-template-columns: 1fr; }
+}
+
+</style></head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar"><div class="brand"><img src="./logo.png" alt="Logo" style="max-height:40px; margin-right:10px; vertical-align:middle;"> <span>DisasterRelief</span></div><nav class="side-nav"><div class="nav-group"><p class="nav-group-title operations">OPERATIONS</p><a class="nav-link" href="./dashboard.html"><span>⌂</span>Dashboard</a><a class="nav-link" href="./relief-inventory.html"><span>◈</span>Relief Inventory</a><a class="nav-link active operations" href="./distributions.html"><span>⌁</span>Distributions</a><a class="nav-link" href="./shelters.html"><span>▣</span>Shelters</a><a class="nav-link" href="./citizens.html"><span>⚭</span>Citizen Registry</a></div></nav><div class="profile"><div class="avatar" id="profileAvatar">U</div><div><p id="profileName"></p><small id="profileRole"></small></div></div></aside>
+    <section class="content"><header class="topbar"><h1>Relief Operations</h1><div class="topbar-right"><span class="bell">🔔</span><span class="role-chip" id="roleChip"></span><button id="logoutBtn" class="text-btn">Sign out</button></div></header>
+      <main class="main"><div class="page"><div class="page-head"><div><h2>Relief Distributions</h2><p class="sub">Track and manage relief item distributions linked to incidents and programs.</p></div><div class="head-actions"><input class="search" placeholder="Search distributions..." /><a class="btn btn-operations" href="./create-distribution.html">+ New Distribution</a></div></div><section class="panel"><table><thead><tr><th>Item</th><th>Incident</th><th>Program</th><th>Status</th></tr></thead><tbody id="distributionRows"></tbody></table></section></div></main>
+    </section>
+  </div>
+  <script>
+const STORAGE_KEY = "drms_state_v1";
+const seed = {
+  currentUser: null,
+  users: [
+    { UserID: 2, Name: "Sarah Officer", Role: "Officer", Email: "officer@test.com" },
+    { UserID: 3, Name: "Michael Manager", Role: "Manager", Email: "manager@test.com" }
+  ],
+  programs: [
+    { ProgramID: 1, Title: "Coastal Flood Rehabilitation", StartDate: "2023-09-01", EndDate: "2024-09-01", Budget: 5000000, Status: "Active", Description: "Rebuilding homes and infrastructure damaged by the recent coastal floods." },
+    { ProgramID: 2, Title: "Downtown Earthquake Recovery", StartDate: "2023-11-15", EndDate: "2025-11-15", Budget: 12000000, Status: "Planned", Description: "Structural assessment and repair of downtown commercial buildings." }
+  ],
+  shelters: [
+    { ShelterID: 1, Name: "Central High School Gym", Location: "100 Education Way", Capacity: 500, Occupancy: 350, Status: "Open" },
+    { ShelterID: 2, Name: "Community Center", Location: "250 Civic Plaza", Capacity: 200, Occupancy: 200, Status: "Full" }
+  ],
+  reliefItems: [
+    { ItemID: 1, ProgramID: 1, Type: "Food", Name: "MRE Rations", Quantity: 5000, UnitCost: 10, Unit: "Meals", Status: "Available" },
+    { ItemID: 2, ProgramID: 1, Type: "Water", Name: "Bottled Water", Quantity: 10000, UnitCost: 2, Unit: "Liters", Status: "Available" }
+  ],
+  distributions: [
+    { DistributionID: 1, ItemID: 1, Incident: "Flood at Riverside District", Program: "Coastal Flood Rehabilitation", Quantity: 10, Status: "Distributed" }
+  ],
+  citizens: [
+    { CitizenID: 1, Name: "John Citizen", Address: "123 Riverside Dr", ContactInfo: "555-0101", Status: "Verified" },
+    { CitizenID: 2, Name: "Jane Doe", Address: "456 Pine Hills Rd", ContactInfo: "555-0202", Status: "Pending" }
+  ],
+  reports: [
+    { ReportID: 1, Type: "Flood", Location: "Riverside District", Date: "2023-10-01T14:30:00Z", Description: "Water level rising rapidly near Main St.", Status: "Validated" },
+    { ReportID: 2, Type: "Fire", Location: "Pine Hills", Date: "2023-10-15T09:15:00Z", Description: "Brush fire spreading towards residential area.", Status: "Resolved" }
+  ]
+};
+
+function cloneSeed() {
+  return JSON.parse(JSON.stringify(seed));
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
+      return cloneSeed();
+    }
+    return JSON.parse(raw);
+  } catch {
+    return cloneSeed();
+  }
+}
+const state = loadState();
+const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+const money = (v) => `$${Number(v).toLocaleString("en-IN")}`;
+const nextId = (items, key) => (items.length ? Math.max(...items.map((i) => Number(i[key]) || 0)) + 1 : 1);
+const tbody = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+const qid = () => Number(new URLSearchParams(location.search).get("id") || 0);
+const currentPage = () => location.pathname.split("/").pop() || "index.html";
+const statusToneMap = {
+  Active: "emerald",
+  Open: "emerald",
+  Available: "emerald",
+  Verified: "emerald",
+  Distributed: "emerald",
+  Validated: "emerald",
+  Planned: "sky",
+  Reserved: "sky",
+  Resolved: "violet",
+  Completed: "violet",
+  Pending: "amber",
+  Suspended: "amber",
+  Maint: "amber",
+  Low: "amber",
+  Full: "rose",
+  OutOfStock: "rose",
+  Closed: "slate",
+  Inactive: "slate"
+};
+const toneForStatus = (label) => statusToneMap[label] || "slate";
+const statusPill = (label) => `<span class="pill ${toneForStatus(label)}">${label}</span>`;
+const normalizeCitizenStatus = (status) => {
+  if (status === "Pending") return "Unverified";
+  return status || "Unverified";
+};
+
+function navIsActive(page, href) {
+  const parentMap = {
+    "add-relief-item.html": "relief-inventory.html",
+    "create-distribution.html": "distributions.html",
+    "add-shelter.html": "shelters.html",
+    "shelter-detail.html": "shelters.html",
+    "register-citizen.html": "citizens.html",
+    "emergency-detail.html": "emergencies.html",
+    "recovery-program-detail.html": "recovery-programs.html"
+  };
+  const normalized = parentMap[page] || page;
+  return normalized === href;
+}
+
+function ensureShellLayout() {
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) return;
+
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar) {
+    const page = currentPage();
+    const links = [
+      { href: "dashboard.html", label: "Dashboard", icon: "⌂", group: "operations" },
+      { href: "relief-inventory.html", label: "Relief Inventory", icon: "◈", group: "operations" },
+      { href: "distributions.html", label: "Distributions", icon: "⌁", group: "operations" },
+      { href: "shelters.html", label: "Shelters", icon: "▣", group: "operations" },
+      { href: "citizens.html", label: "Citizen Registry", icon: "⚭", group: "operations" },
+      { href: "emergencies.html", label: "Emergencies", icon: "△", group: "emergencies" },
+      { href: "recovery-programs.html", label: "Recovery Programs", icon: "▤", group: "recovery" }
+    ];
+    const byGroup = (name) => links.filter((l) => l.group === name).map((l) => {
+      const active = navIsActive(page, l.href) ? ` active ${l.group}` : "";
+      return `<a class="nav-link${active}" href="./${l.href}"><span>${l.icon}</span>${l.label}</a>`;
+    }).join("");
+    sidebar.innerHTML = `
+      <div class="brand"><img src="./logo.png" alt="Logo" style="max-height:40px; margin-right:10px; vertical-align:middle;"> <span>DisasterRelief</span></div>
+      <nav class="side-nav">
+        <div class="nav-group">
+          <p class="nav-group-title operations">OPERATIONS</p>
+          ${byGroup("operations")}
+        </div>
+        <div class="nav-group">
+          <p class="nav-group-title emergencies">EMERGENCIES</p>
+          ${byGroup("emergencies")}
+        </div>
+        <div class="nav-group">
+          <p class="nav-group-title recovery">RECOVERY</p>
+          ${byGroup("recovery")}
+        </div>
+      </nav>
+      <div class="profile">
+        <div class="avatar" id="profileAvatar">U</div>
+        <div><p id="profileName"></p><small id="profileRole"></small></div>
+      </div>
+    `;
+  }
+
+  const topbarRight = document.querySelector(".topbar-right");
+  if (topbarRight && !topbarRight.querySelector(".bell")) {
+    topbarRight.insertAdjacentHTML("afterbegin", '<span class="bell">🔔</span>');
+  }
+}
+
+function authGuard() {
+  const page = location.pathname.split("/").pop();
+  if (page !== "index.html" && !state.currentUser) location.href = "./index.html";
+}
+function bindShell() {
+  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  set("roleChip", state.currentUser?.Role || "");
+  set("profileName", state.currentUser?.Name || "");
+  set("profileRole", state.currentUser?.Role || "");
+  set("profileAvatar", (state.currentUser?.Name || "U").charAt(0));
+  const logout = document.getElementById("logoutBtn");
+  if (logout) logout.onclick = () => { state.currentUser = null; save(); location.href = "./index.html"; };
+}
+function bindLogin() {
+  const form = document.getElementById("loginForm");
+  if (!form) return;
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const role = String(fd.get("role") || "Officer");
+    const email = String(fd.get("email") || "");
+    const user = state.users.find((u) => u.Role === role) || state.users[0];
+    state.currentUser = { ...user, Email: email || user.Email };
+    save();
+    location.href = "./dashboard.html";
+  };
+}
+
+function fillDashboard() {
+  const emergencyCounts = {
+    Active: state.reports.filter((r) => r.Status === "Validated").length,
+    Pending: state.reports.filter((r) => r.Status === "Pending").length,
+    Resolved: state.reports.filter((r) => r.Status === "Resolved").length,
+    Closed: state.reports.filter((r) => r.Status === "Closed").length
+  };
+  const shelterCounts = {
+    Open: state.shelters.filter((s) => s.Status === "Open").length,
+    Full: state.shelters.filter((s) => s.Status === "Full").length,
+    Closed: state.shelters.filter((s) => s.Status === "Closed").length,
+    Maint: state.shelters.filter((s) => s.Status === "UnderMaintenance").length
+  };
+  const programCounts = {
+    Active: state.programs.filter((p) => p.Status === "Active").length,
+    Planned: state.programs.filter((p) => p.Status === "Planned").length,
+    Completed: state.programs.filter((p) => p.Status === "Completed").length,
+    Suspended: state.programs.filter((p) => p.Status === "Suspended").length
+  };
+  const inventoryCounts = {
+    Available: state.reliefItems.filter((i) => i.Status === "Available").length,
+    Low: state.reliefItems.filter((i) => i.Status === "Low").length,
+    OutOfStock: state.reliefItems.filter((i) => i.Status === "OutOfStock").length,
+    Reserved: state.reliefItems.filter((i) => i.Status === "Reserved").length
+  };
+  const citizenCounts = {
+    Verified: state.citizens.filter((c) => c.Status === "Verified").length,
+    Pending: state.citizens.filter((c) => c.Status === "Pending").length,
+    Active: state.citizens.filter((c) => c.Status === "Active").length,
+    Inactive: state.citizens.filter((c) => c.Status === "Inactive").length
+  };
+
+  const renderStatusList = (targetId, stats) => {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const total = Math.max(1, Object.values(stats).reduce((sum, value) => sum + value, 0));
+    target.innerHTML = Object.entries(stats).map(([label, count]) => {
+      const tone = toneForStatus(label);
+      const percent = Math.round((count / total) * 100);
+      return `<div class="status-item"><div class="status-row"><span><i class="dot ${tone}"></i>${label}</span><b>${count}</b></div><div class="status-meter"><span class="${tone}" style="width:${percent}%"></span></div></div>`;
+    }).join("");
+  };
+
+  renderStatusList("status-emergencies", emergencyCounts);
+  renderStatusList("status-shelters", shelterCounts);
+  renderStatusList("status-programs", programCounts);
+  renderStatusList("status-inventory", inventoryCounts);
+  renderStatusList("status-citizens", citizenCounts);
+
+  const emergencyFeed = document.getElementById("recentEmergencies");
+  if (emergencyFeed) {
+    emergencyFeed.innerHTML = state.reports.slice(0, 4).map((r) => `<article class="list-item"><p><strong>${r.Type} - ${r.Location}</strong></p><small>${new Date(r.Date).toLocaleDateString()}</small>${statusPill(r.Status === "Validated" ? "Validated" : r.Status)}</article>`).join("");
+  }
+  const programFeed = document.getElementById("activePrograms");
+  if (programFeed) {
+    programFeed.innerHTML = state.programs.slice(0, 4).map((p) => `<article class="list-item"><p><strong>${p.Title}</strong></p><small>Budget: ${money(p.Budget)}</small>${statusPill(p.Status)}</article>`).join("");
+  }
+}
+function fillPrograms() {
+  tbody("programRows", state.programs.map((p) => `<tr><td><strong>${p.Title}</strong></td><td>${new Date(p.StartDate).toLocaleDateString()} - ${new Date(p.EndDate).toLocaleDateString()}</td><td>${money(p.Budget)}</td><td>${statusPill(p.Status)}</td><td><a href="./recovery-program-detail.html?id=${p.ProgramID}">View</a></td></tr>`).join(""));
+}
+function fillInventory() {
+  tbody("inventoryRows", state.reliefItems.map((i) => {
+    const p = state.programs.find((x) => x.ProgramID === i.ProgramID);
+    return `<tr><td><strong>${i.Name}</strong></td><td>${p?.Title || "-"}</td><td>${i.Type}</td><td>${i.Quantity} ${i.Unit}</td><td>${money(i.UnitCost)}</td><td>${money(i.Quantity * i.UnitCost)}</td><td>${statusPill(i.Status)}</td><td><a href="./add-relief-item.html?id=${i.ItemID}">Edit</a> <a href="#" data-del-item="${i.ItemID}">Delete</a></td></tr>`;
+  }).join(""));
+  document.querySelectorAll("[data-del-item]").forEach((a) => {
+    a.onclick = (e) => {
+      e.preventDefault();
+      const id = Number(a.getAttribute("data-del-item"));
+      state.reliefItems = state.reliefItems.filter((i) => i.ItemID !== id);
+      save();
+      fillInventory();
+    };
+  });
+}
+function bindItemForm() {
+  const form = document.getElementById("itemForm");
+  if (!form) return;
+  const id = qid();
+  const item = state.reliefItems.find((i) => i.ItemID === id);
+  form.ProgramID.innerHTML = state.programs.map((p) => `<option value="${p.ProgramID}">${p.Title}</option>`).join("");
+  if (item) {
+    form.Name.value = item.Name; form.Type.value = item.Type; form.ProgramID.value = String(item.ProgramID);
+    form.Quantity.value = String(item.Quantity); form.UnitCost.value = String(item.UnitCost); form.Unit.value = item.Unit; form.Status.value = item.Status;
+  }
+  const calc = () => {
+    const qty = Number(form.Quantity.value || 0);
+    const unit = Number(form.UnitCost.value || 0);
+    const pid = Number(form.ProgramID.value || 0);
+    const p = state.programs.find((x) => x.ProgramID === pid);
+    const used = state.reliefItems.filter((i) => i.ProgramID === pid && i.ItemID !== id).reduce((t, i) => t + i.Quantity * i.UnitCost, 0);
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set("itemTotalCost", money(qty * unit)); set("programBudget", money(p?.Budget || 0)); set("programAllocated", money(used)); set("programRemaining", money(Math.max(0, (p?.Budget || 0) - used)));
+  };
+  form.ProgramID.onchange = calc; form.Quantity.oninput = calc; form.UnitCost.oninput = calc; calc();
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = { Name: String(fd.get("Name")), Type: String(fd.get("Type")), ProgramID: Number(fd.get("ProgramID")), Quantity: Number(fd.get("Quantity")), UnitCost: Number(fd.get("UnitCost")), Unit: String(fd.get("Unit")), Status: String(fd.get("Status")) };
+    if (id) state.reliefItems = state.reliefItems.map((i) => i.ItemID === id ? { ...i, ...payload } : i);
+    else state.reliefItems.push({ ...payload, ItemID: nextId(state.reliefItems, "ItemID") });
+    save(); location.href = "./relief-inventory.html";
+  };
+}
+function fillDistributions() {
+  tbody("distributionRows", state.distributions.map((d) => {
+    const item = state.reliefItems.find((i) => i.ItemID === d.ItemID);
+    return `<tr><td><strong>${item?.Name || "-"}</strong><small>Qty: ${d.Quantity} ${item?.Unit || ""}</small></td><td>${d.Incident}</td><td>${d.Program}</td><td>${statusPill(d.Status)}</td></tr>`;
+  }).join(""));
+}
+function bindDistributionForm() {
+  const form = document.getElementById("distributionForm");
+  if (!form) return;
+  form.ItemID.innerHTML = state.reliefItems.map((i) => `<option value="${i.ItemID}">${i.Name} (${i.Quantity} ${i.Unit})</option>`).join("");
+  form.Incident.innerHTML = state.reports.map((r) => `<option value="${r.Type} at ${r.Location}">${r.Type} at ${r.Location}</option>`).join("");
+  form.Program.innerHTML = state.programs.map((p) => `<option value="${p.Title}">${p.Title}</option>`).join("");
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    state.distributions.push({ DistributionID: nextId(state.distributions, "DistributionID"), ItemID: Number(fd.get("ItemID")), Incident: String(fd.get("Incident")), Program: String(fd.get("Program")), Quantity: Number(fd.get("Quantity")), Status: "Distributed" });
+    save(); location.href = "./distributions.html";
+  };
+}
+function fillShelters() {
+  const el = document.getElementById("shelterCards");
+  if (!el) return;
+  el.innerHTML = state.shelters.map((s) => {
+    const ratio = s.Capacity > 0 ? (s.Occupancy / s.Capacity) * 100 : 0;
+    const pct = Math.max(0, Math.min(100, ratio));
+    const tone = s.Status === "Full" || pct >= 90 ? "danger" : pct >= 75 ? "warn" : "";
+    return `<article class="card">
+      <div class="card-body">
+        <div class="shelter-head">
+          <h3>▣ ${s.Name}</h3>
+          ${statusPill(s.Status)}
+        </div>
+        <p>${s.Location}</p>
+        <div class="occ-row"><span>Occupancy</span><strong>${s.Occupancy} / ${s.Capacity}</strong></div>
+        <div class="progress ${tone}"><span style="width:${pct}%"></span></div>
+      </div>
+      <div class="card-actions">
+        <a class="card-link" href="./shelter-detail.html?id=${s.ShelterID}">View Details →</a>
+        <a class="card-link card-link-edit" href="./add-shelter.html?id=${s.ShelterID}">Edit</a>
+        <a class="card-link card-link-danger" href="#" data-del-shelter="${s.ShelterID}">Delete</a>
+      </div>
+    </article>`;
+  }).join("");
+  document.querySelectorAll("[data-del-shelter]").forEach((a) => {
+    a.onclick = (e) => {
+      e.preventDefault();
+      const id = Number(a.getAttribute("data-del-shelter"));
+      const shelter = state.shelters.find((x) => x.ShelterID === id);
+      if (!shelter) return;
+      const ok = window.confirm(`Delete shelter "${shelter.Name}"?`);
+      if (!ok) return;
+      state.shelters = state.shelters.filter((x) => x.ShelterID !== id);
+      save();
+      fillShelters();
+    };
+  });
+}
+function bindShelterForm() {
+  const form = document.getElementById("shelterForm");
+  if (!form) return;
+  const id = qid();
+  const s = state.shelters.find((x) => x.ShelterID === id);
+  if (s) {
+    form.Name.value = s.Name;
+    form.Location.value = s.Location;
+    form.Capacity.value = String(s.Capacity);
+    form.Occupancy.value = String(s.Occupancy);
+    form.Status.value = s.Status;
+    const title = document.getElementById("shelterFormTitle");
+    const submit = document.getElementById("shelterSubmitBtn");
+    if (title) title.textContent = "Edit Shelter";
+    if (submit) submit.textContent = "Update Shelter";
+  }
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = { Name: String(fd.get("Name")), Location: String(fd.get("Location")), Capacity: Number(fd.get("Capacity")), Occupancy: Number(fd.get("Occupancy")), Status: String(fd.get("Status")) };
+    if (id) state.shelters = state.shelters.map((x) => x.ShelterID === id ? { ...x, ...payload } : x);
+    else state.shelters.push({ ...payload, ShelterID: nextId(state.shelters, "ShelterID") });
+    save(); location.href = "./shelters.html";
+  };
+}
+function fillCitizens() {
+  tbody("citizenRows", state.citizens.map((c) => {
+    const status = normalizeCitizenStatus(c.Status);
+    return `<tr><td><strong>${c.Name}</strong></td><td>${c.ContactInfo}</td><td>${c.Address}</td><td>${statusPill(status)}</td><td class="actions"><a href="./register-citizen.html?id=${c.CitizenID}">Edit</a></td></tr>`;
+  }).join(""));
+}
+function bindCitizenForm() {
+  const form = document.getElementById("citizenForm");
+  if (!form) return;
+  const id = qid();
+  const citizen = state.citizens.find((c) => c.CitizenID === id);
+  if (citizen) {
+    form.Name.value = citizen.Name;
+    form.ContactInfo.value = citizen.ContactInfo;
+    form.Address.value = citizen.Address;
+    form.Status.value = normalizeCitizenStatus(citizen.Status);
+    const title = document.getElementById("citizenFormTitle");
+    const submit = document.getElementById("citizenSubmitBtn");
+    if (title) title.textContent = "Edit Citizen";
+    if (submit) submit.textContent = "Update Citizen";
+  } else {
+    form.Status.value = "Unverified";
+  }
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = {
+      Name: String(fd.get("Name")),
+      ContactInfo: String(fd.get("ContactInfo")),
+      Address: String(fd.get("Address")),
+      Status: normalizeCitizenStatus(String(fd.get("Status") || "Unverified"))
+    };
+    if (id) {
+      state.citizens = state.citizens.map((c) => c.CitizenID === id ? { ...c, ...payload } : c);
+    } else {
+      state.citizens.push({ CitizenID: nextId(state.citizens, "CitizenID"), ...payload });
+    }
+    save(); location.href = "./citizens.html";
+  };
+}
+function fillEmergencies() {
+  tbody("emergencyRows", state.reports.map((r) => `<tr><td><strong>${r.Type}</strong></td><td>${r.Location}</td><td>${new Date(r.Date).toLocaleDateString()}</td><td>${statusPill(r.Status === "Validated" ? "Validated" : r.Status)}</td><td><a href="./emergency-detail.html?id=${r.ReportID}">View</a></td></tr>`).join(""));
+}
+function fillDetails() {
+  const id = qid();
+  const p = state.programs.find((x) => x.ProgramID === id);
+  if (p && document.getElementById("programTitle")) {
+    document.getElementById("programTitle").textContent = p.Title;
+    document.getElementById("programStatus").textContent = p.Status;
+    document.getElementById("programBudget").textContent = money(p.Budget);
+    document.getElementById("programTimeline").textContent = `${new Date(p.StartDate).toLocaleDateString()} - ${new Date(p.EndDate).toLocaleDateString()}`;
+    document.getElementById("programDescription").textContent = p.Description;
+    tbody("resourceRows", state.reliefItems.filter((i) => i.ProgramID === p.ProgramID).map((i) => `<tr><td><strong>${i.Name}</strong></td><td>${i.Type}</td><td>${i.Quantity} ${i.Unit}</td><td>${i.Status}</td><td>-</td></tr>`).join(""));
+  }
+  const s = state.shelters.find((x) => x.ShelterID === id);
+  if (s && document.getElementById("shelterTitle")) {
+    document.getElementById("shelterTitle").textContent = s.Name;
+    document.getElementById("shelterLocation").textContent = s.Location;
+    document.getElementById("shelterStatus").textContent = s.Status;
+    document.getElementById("shelterCapacity").textContent = String(s.Capacity);
+    document.getElementById("shelterOccupancy").textContent = String(s.Occupancy);
+    const editBtn = document.getElementById("shelterEditBtn");
+    if (editBtn) editBtn.setAttribute("href", `./add-shelter.html?id=${s.ShelterID}`);
+    const deleteBtn = document.getElementById("shelterDeleteBtn");
+    if (deleteBtn) {
+      deleteBtn.onclick = () => {
+        const ok = window.confirm(`Delete shelter "${s.Name}"?`);
+        if (!ok) return;
+        state.shelters = state.shelters.filter((x) => x.ShelterID !== s.ShelterID);
+        save();
+        location.href = "./shelters.html";
+      };
+    }
+  }
+  const r = state.reports.find((x) => x.ReportID === id);
+  if (r && document.getElementById("reportTitle")) {
+    document.getElementById("reportTitle").textContent = `${r.Type} Emergency — ${r.Location}`;
+    document.getElementById("reportType").textContent = `${r.Type} Emergency`;
+    document.getElementById("reportLocation").textContent = r.Location;
+    document.getElementById("reportDate").textContent = new Date(r.Date).toLocaleString();
+    document.getElementById("reportStatus").textContent = r.Status;
+    document.getElementById("reportDescription").textContent = r.Description;
+  }
+}
+function bindSearches() {
+  const search = document.querySelector(".search");
+  if (!search) return;
+  search.addEventListener("input", () => {
+    const query = String(search.value || "").trim().toLowerCase();
+    if (document.getElementById("inventoryRows")) {
+      document.querySelectorAll("#inventoryRows tr").forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+    if (document.getElementById("distributionRows")) {
+      document.querySelectorAll("#distributionRows tr").forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+    if (document.getElementById("citizenRows")) {
+      document.querySelectorAll("#citizenRows tr").forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+    if (document.getElementById("emergencyRows")) {
+      document.querySelectorAll("#emergencyRows tr").forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+    if (document.getElementById("programRows")) {
+      document.querySelectorAll("#programRows tr").forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+    if (document.getElementById("shelterCards")) {
+      document.querySelectorAll("#shelterCards .card").forEach((card) => {
+        card.style.display = card.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    }
+  });
+}
+function init() {
+  ensureShellLayout();
+  bindLogin();
+  if (!document.getElementById("loginForm")) { authGuard(); bindShell(); }
+  fillDashboard(); fillPrograms(); fillInventory(); bindItemForm();
+  fillDistributions(); bindDistributionForm();
+  fillShelters(); bindShelterForm();
+  fillCitizens(); bindCitizenForm();
+  fillEmergencies(); fillDetails();
+  bindSearches();
+}
+init();
+
+</script>
+</body></html>
