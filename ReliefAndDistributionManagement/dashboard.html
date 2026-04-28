@@ -481,8 +481,7 @@ function ensureShellLayout() {
 }
 
 function authGuard() {
-  const page = location.pathname.split("/").pop();
-  if (page !== "index.html" && !state.currentUser) location.href = "./index.html";
+  
 }
 function bindShell() {
   const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
@@ -491,21 +490,14 @@ function bindShell() {
   set("profileRole", state.currentUser?.Role || "");
   set("profileAvatar", (state.currentUser?.Name || "U").charAt(0));
   const logout = document.getElementById("logoutBtn");
-  if (logout) logout.onclick = () => { state.currentUser = null; save(); location.href = "./index.html"; };
+if (logout) logout.onclick = () => {
+  alert("Authentication is disabled.");
+};
+
 }
 function bindLogin() {
-  const form = document.getElementById("loginForm");
-  if (!form) return;
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const fd = new FormData(form);
-    const role = String(fd.get("role") || "Officer");
-    const email = String(fd.get("email") || "");
-    const user = state.users.find((u) => u.Role === role) || state.users[0];
-    state.currentUser = { ...user, Email: email || user.Email };
-    save();
-    location.href = "./dashboard.html";
-  };
+ 
+  
 }
 
 function fillDashboard() {
