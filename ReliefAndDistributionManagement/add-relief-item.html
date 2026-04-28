@@ -442,19 +442,19 @@ function ensureShellLayout() {
   }
 }
 
-function authGuard() {
-  const page = location.pathname.split("/").pop();
-  if (page !== "index.html" && !state.currentUser) location.href = "./index.html";
-}
+
 function bindShell() {
   const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
   set("roleChip", state.currentUser?.Role || "");
   set("profileName", state.currentUser?.Name || "");
   set("profileRole", state.currentUser?.Role || "");
   set("profileAvatar", (state.currentUser?.Name || "U").charAt(0));
-  const logout = document.getElementById("logoutBtn");
-  if (logout) logout.onclick = () => { state.currentUser = null; save(); location.href = "./index.html"; };
-}
+  
+const logout = document.getElementById("logoutBtn");
+if (logout) logout.onclick = () => {
+  location.href = "../index.html"; // or your login page path
+};
+
 function bindLogin() {
   const form = document.getElementById("loginForm");
   if (!form) return;
@@ -468,7 +468,7 @@ function bindLogin() {
     save();
     location.href = "./dashboard.html";
   };
-}
+}}
 
 function fillDashboard() {
   const emergencyCounts = {
@@ -781,7 +781,7 @@ function bindSearches() {
 function init() {
   ensureShellLayout();
   bindLogin();
-  if (!document.getElementById("loginForm")) { authGuard(); bindShell(); }
+  if (!document.getElementById("loginForm")) {  bindShell(); }
   fillDashboard(); fillPrograms(); fillInventory(); bindItemForm();
   fillDistributions(); bindDistributionForm();
   fillShelters(); bindShelterForm();
@@ -792,4 +792,5 @@ function init() {
 init();
 
 </script>
-</body></html>
+</body>
+</html>

@@ -483,21 +483,25 @@ function ensureShellLayout() {
 function authGuard() {
   
 }
-function bindShell() {
-  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
-  set("roleChip", state.currentUser?.Role || "");
-  set("profileName", state.currentUser?.Name || "");
-  set("profileRole", state.currentUser?.Role || "");
-  set("profileAvatar", (state.currentUser?.Name || "U").charAt(0));
-  const logout = document.getElementById("logoutBtn");
-if (logout) logout.onclick = () => {
-  alert("Authentication is disabled.");
-};
 
+function bindShell() {
+  const logout = document.getElementById("logoutBtn");
+
+  if (!logout) {
+    console.error("logout button not found");
+    return;
+  }
+
+  logout.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.location.replace("../user-citizen-Management/lander.html"); // ✅ CORRECT PATH
+  });
 }
+
+
+
 function bindLogin() {
- 
-  
+
 }
 
 function fillDashboard() {
@@ -808,15 +812,28 @@ function bindSearches() {
 }
 function init() {
   ensureShellLayout();
+  authGuard();       // now harmless
   bindLogin();
-  if (!document.getElementById("loginForm")) { authGuard(); bindShell(); }
-  fillDashboard(); fillPrograms(); fillInventory(); bindItemForm();
-  fillDistributions(); bindDistributionForm();
-  fillShelters(); bindShelterForm();
-  fillCitizens(); bindCitizenForm();
-  fillEmergencies(); fillDetails();
+  bindShell();
+
+  fillDashboard();
+  fillPrograms();
+  fillInventory();
+  bindItemForm();
+  fillDistributions();
+  bindDistributionForm();
+  fillShelters();
+  bindShelterForm();
+  fillCitizens();
+  bindCitizenForm();
+  fillEmergencies();
+  fillDetails();
   bindSearches();
+  document.addEventListener("DOMContentLoaded", function () {
+  init();
+});
 }
+
 init();
 
 </script>
