@@ -337,11 +337,6 @@ textarea { min-height: 90px; resize: vertical; }
   <script>
 const STORAGE_KEY = "drms_state_v1";
 const seed = {
-  currentUser: null,
-  users: [
-    { UserID: 2, Name: "Sarah Officer", Role: "Officer", Email: "officer@test.com" },
-    { UserID: 3, Name: "Michael Manager", Role: "Manager", Email: "manager@test.com" }
-  ],
   programs: [
     { ProgramID: 1, Title: "Coastal Flood Rehabilitation", StartDate: "2023-09-01", EndDate: "2024-09-01", Budget: 5000000, Status: "Active", Description: "Rebuilding homes and infrastructure damaged by the recent coastal floods." },
     { ProgramID: 2, Title: "Downtown Earthquake Recovery", StartDate: "2023-11-15", EndDate: "2025-11-15", Budget: 12000000, Status: "Planned", Description: "Structural assessment and repair of downtown commercial buildings." }
@@ -478,34 +473,6 @@ function ensureShellLayout() {
   if (topbarRight && !topbarRight.querySelector(".bell")) {
     topbarRight.insertAdjacentHTML("afterbegin", '<span class="bell">🔔</span>');
   }
-}
-
-function authGuard() {
-  const page = location.pathname.split("/").pop();
-  if (page !== "index.html" && !state.currentUser) location.href = "./index.html";
-}
-function bindShell() {
-  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
-  set("roleChip", state.currentUser?.Role || "");
-  set("profileName", state.currentUser?.Name || "");
-  set("profileRole", state.currentUser?.Role || "");
-  set("profileAvatar", (state.currentUser?.Name || "U").charAt(0));
-  const logout = document.getElementById("logoutBtn");
-  if (logout) logout.onclick = () => { state.currentUser = null; save(); location.href = "./index.html"; };
-}
-function bindLogin() {
-  const form = document.getElementById("loginForm");
-  if (!form) return;
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const fd = new FormData(form);
-    const role = String(fd.get("role") || "Officer");
-    const email = String(fd.get("email") || "");
-    const user = state.users.find((u) => u.Role === role) || state.users[0];
-    state.currentUser = { ...user, Email: email || user.Email };
-    save();
-    location.href = "./dashboard.html";
-  };
 }
 
 function fillDashboard() {
